@@ -79,7 +79,7 @@ public class Student implements Comparable<Student>, Cloneable {
 	return sb.toString();
     }
 
-    @Override
+    /*@Override
     public int compareTo(Student o) {
 	if ( this.gpa < o.gpa ) {
 	    return -1;
@@ -87,9 +87,9 @@ public class Student implements Comparable<Student>, Cloneable {
 	    return 1;
 	} else
 	    return 0;
-    }
+    }*/
     
-    /*@Override
+    @Override
     public int compareTo(Student o) {
 	if ( this.grade.ordinal() < o.grade.ordinal() ) {
 	    return -1;
@@ -97,7 +97,7 @@ public class Student implements Comparable<Student>, Cloneable {
 	    return 1;
 	} else
 	    return 0;
-    }*/
+    }
     
     /*@Override
     public int compareTo(Student o) {
