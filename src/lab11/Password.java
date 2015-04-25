@@ -94,18 +94,8 @@ public class Password {
 	return shift;
     }
 
-    public void setShift() {
+    private void setShift() {
 	final Random rnd = new Random();
 	shift = rnd.nextInt(SHIFT_MAX) + SHIFT_MIN;
     }
-
-    public static void main(String[] args) {
-	Password asdf = new Password("Jason");
-//	asdf.encrypt();
-
-	System.out.println(asdf.getText());
-	System.out.println(asdf.getShift());
-	System.out.println(asdf.getCipheredText());
-    }
-
 }
