@@ -11,12 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 @SuppressWarnings("serial")
 public class LoginWindow extends JFrame implements ActionListener {
-
+    
     private JPanel mainPanel;
     private JPanel buttonPanel;
     private JPanel userNamePanel;
@@ -86,17 +85,17 @@ public class LoginWindow extends JFrame implements ActionListener {
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
-	SwingUtilities.invokeLater(new Runnable() {
-	    public void run() {
-		new LoginWindow();
-	    }
-	});
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
 	// TODO Auto-generated method stub
 
+    }
+    
+    public String getUserName(){
+	return txtUserName.getText();
+    }
+    
+    public String getPassword(){
+	return String.valueOf(txtPassword.getPassword());
     }
 }

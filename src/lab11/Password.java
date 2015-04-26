@@ -1,6 +1,5 @@
 package lab11;
 
-import java.text.DecimalFormat;
 import java.util.Random;
 
 public class Password {

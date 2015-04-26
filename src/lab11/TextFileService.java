@@ -32,17 +32,22 @@ public class TextFileService {
 	
     }
     
-    public static void main(String[] args){
-	try {
-	    TextFileService asdf = new TextFileService();
-	    asdf.populateAccountsFromFile();
-	    
-	    System.out.println(asdf.getAccounts());
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	}
+    public static void main(String[] args) throws FileNotFoundException{
+	TextFileService asdf = new TextFileService();
+	
+	asdf.populateAccountsFromFile();
+	System.out.println(asdf.getAccounts());
     }
-
+    
+    public boolean isExistingAccount(Username username){
+	for (Account account : accounts){
+	    if (account.getUsername().equals(username)){
+		return false;
+	    }
+	}
+	return true;
+    }
+    
     public ArrayList<Account> getAccounts() {
         return accounts;
     }

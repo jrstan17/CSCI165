@@ -1,12 +1,8 @@
 package lab11;
 
-import java.text.DecimalFormat;
-import java.util.GregorianCalendar;
-
 public class Account {
     private Username username;
     private Password password;
-    private GregorianCalendar lastLogin;
     
     
     public Account(){
