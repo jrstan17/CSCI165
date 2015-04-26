@@ -24,7 +24,7 @@ public class LoginWindow extends JFrame implements ActionListener {
 
     private JLabel lblUserName = new JLabel("User Name: ");
     private JTextField txtUserName = new JTextField();
-    
+
     private JLabel lblPassword = new JLabel("Password: ");
     private JPasswordField txtPassword = new JPasswordField();
 
@@ -49,35 +49,41 @@ public class LoginWindow extends JFrame implements ActionListener {
 	buttonPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 	buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-	
+
 	// set user name panel
 	userNamePanel = new JPanel();
 	userNamePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	mainPanel.add(userNamePanel, BorderLayout.NORTH);
-	userNamePanel.setLayout(new FlowLayout(FlowLayout.CENTER));	
-	
+	userNamePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
 	// set password panel
 	passwordPanel = new JPanel();
 	passwordPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	mainPanel.add(passwordPanel, BorderLayout.CENTER);
-	passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));	
+	passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 	// populate window with controls
-	userNamePanel.add(lblUserName);	
+	userNamePanel.add(lblUserName);
 	userNamePanel.add(txtUserName);
 	txtUserName.setColumns(15);
-	
+
 	passwordPanel.add(lblPassword);
 	passwordPanel.add(txtPassword);
 	txtPassword.setColumns(15);
 
 	buttonPanel.add(btnLogin);
+	btnLogin.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent event) {
+		
+	    }
+	});
+
 	buttonPanel.add(btnNew);
 	buttonPanel.add(btnCancel);
-	
-        pack();
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+	pack();
+	setLocationRelativeTo(null);
+	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     public static void main(String[] args) {
@@ -86,7 +92,6 @@ public class LoginWindow extends JFrame implements ActionListener {
 		new LoginWindow();
 	    }
 	});
-
     }
 
     @Override
@@ -94,5 +99,4 @@ public class LoginWindow extends JFrame implements ActionListener {
 	// TODO Auto-generated method stub
 
     }
-
 }

@@ -1,5 +1,6 @@
 package lab11;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 public class Password {
@@ -17,14 +18,51 @@ public class Password {
     };
 
     public Password() {
-	setShift();
+	setRandomShift();
     }
 
     public Password(String password) {
-	setShift();
+	setRandomShift();
 	text = password;
 	this.encrypt();
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public String toString() {
+	StringBuilder sb = new StringBuilder();
+
+	sb.append("Decrypted Password: ");
+	sb.append(text);
+	sb.append(" / Encrypted Password: ");
+	sb.append(cipheredText);
+	sb.append(" / Shift: ");
+	sb.append(shift);
+	sb.append("\n");
+
+	return sb.toString();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public String getText() {
 	return text;
@@ -36,6 +74,10 @@ public class Password {
 
     public String getCipheredText() {
 	return cipheredText;
+    }
+
+    public void setCipheredText(String cipheredText) {
+	this.cipheredText = cipheredText;
     }
 
     public void encrypt() {
@@ -58,33 +100,33 @@ public class Password {
 	int cToInt = (int) c;
 	char charToReturn = ' ';
 
-	if (crypt == Crypt.ENCRYPT) {
+	if (crypt == Crypt.DECRYPT) {
 	    if (cToInt - shift >= CHAR_LOWER_BOUND) {
 		charToReturn = (char) (c - shift);
 	    } else {
 		int distanceToLowerBound = cToInt - CHAR_LOWER_BOUND;
 		int removedDistanceToLowerBound = shift - distanceToLowerBound;
-		int encryptedCharToInt = CHAR_UPPER_BOUND
+		int decryptedCharToInt = CHAR_UPPER_BOUND
 			- removedDistanceToLowerBound;
-		encryptedCharToInt++; // make CHAR_LOWER_BOUND character
+		decryptedCharToInt++; // make CHAR_LOWER_BOUND character
 				      // inclusive
 
-		charToReturn = (char) encryptedCharToInt;
+		charToReturn = (char) decryptedCharToInt;
 	    }
 	}
 
-	if (crypt == Crypt.DECRYPT) {
+	if (crypt == Crypt.ENCRYPT) {
 	    if (cToInt + shift <= CHAR_UPPER_BOUND) {
 		charToReturn = (char) (c + shift);
 	    } else {
 		int distanceToUpperBound = CHAR_UPPER_BOUND - cToInt;
 		int removedDistanceToUpperBound = shift - distanceToUpperBound;
-		int decryptedCharToInt = CHAR_LOWER_BOUND
+		int encryptedCharToInt = CHAR_LOWER_BOUND
 			+ removedDistanceToUpperBound;
-		decryptedCharToInt--; // make CHAR_LOWER_BOUND character
+		encryptedCharToInt--; // make CHAR_LOWER_BOUND character
 				      // inclusive
 
-		charToReturn = (char) decryptedCharToInt;
+		charToReturn = (char) encryptedCharToInt;
 	    }
 	}
 	return charToReturn;
@@ -94,8 +136,12 @@ public class Password {
 	return shift;
     }
 
-    private void setShift() {
+    private void setRandomShift() {
 	final Random rnd = new Random();
 	shift = rnd.nextInt(SHIFT_MAX) + SHIFT_MIN;
+    }
+
+    public void setShift(int shift) {
+	this.shift = shift;
     }
 }
