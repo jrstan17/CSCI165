@@ -1,7 +1,5 @@
 package lab11;
 
-import lab10.Student;
-
 public class Username {
     private String username = "";
     
