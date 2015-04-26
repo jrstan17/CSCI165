@@ -3,7 +3,7 @@ package lab11;
 public class Username {
     private String username = "";
     
-    
+    private String asdf;
     
     public String toString() {
 	StringBuilder sb = new StringBuilder();
