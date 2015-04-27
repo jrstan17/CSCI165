@@ -2,19 +2,23 @@ package lab11;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 @SuppressWarnings("serial")
-public class LoginWindow extends JFrame implements ActionListener {
+public class LoginWindow extends JFrame {
 
     private JPanel mainPanel;
     private JPanel buttonPanel;
@@ -31,7 +35,12 @@ public class LoginWindow extends JFrame implements ActionListener {
     private JButton btnNew = new JButton("New Account");
     private JButton btnCancel = new JButton("Cancel");
 
+    private Controller controller;
+
+    private HashMap<String, Object> componentBundle = new HashMap<String, Object>();
+
     public LoginWindow() {
+
 	// add GUI objects to the Frame
 	setVisible(true);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -74,15 +83,39 @@ public class LoginWindow extends JFrame implements ActionListener {
 	buttonPanel.add(btnNew);
 	buttonPanel.add(btnCancel);
 
+	// setup controller class
+	setComponentBundle();
+	controller = new Controller(componentBundle);
+
+	// add action listeners
+	btnLogin.addActionListener(controller);
+	btnNew.addActionListener(controller);
+	btnCancel.addActionListener(controller);
+	txtUserName.addActionListener(controller);
+	
 	pack();
 	setLocationRelativeTo(null);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-	// TODO Auto-generated method stub
+    private void setComponentBundle() {
+	componentBundle.put("txtUserName", txtUserName);
+	componentBundle.put("txtPassword", txtPassword);
+	componentBundle.put("btnLogin", btnLogin);
+	componentBundle.put("btnNew", btnNew);
+	componentBundle.put("btnCancel", btnCancel);
+    }
 
+    public HashMap<String, Object> getComponentBundle() {
+	return componentBundle;
+    }
+
+    public static void main(String[] args) {
+	SwingUtilities.invokeLater(new Runnable() {
+	    public void run() {
+		new LoginWindow();
+	    }
+	});
     }
 
     public void addButtonActionListener(ActionListener actionListener) {
@@ -96,4 +129,5 @@ public class LoginWindow extends JFrame implements ActionListener {
     public String getPassword() {
 	return String.valueOf(txtPassword.getPassword());
     }
+
 }
