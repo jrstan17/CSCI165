@@ -32,13 +32,6 @@ public class TextFileService {
 	
     }
     
-    public static void main(String[] args) throws FileNotFoundException{
-	TextFileService asdf = new TextFileService();
-	
-	asdf.populateAccountsFromFile();
-	System.out.println(asdf.getAccounts());
-    }
-    
     public boolean isExistingAccount(Username username){
 	for (Account account : accounts){
 	    if (account.getUsername().equals(username)){

@@ -15,7 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 @SuppressWarnings("serial")
 public class LoginWindow extends JFrame implements ActionListener {
-    
+
     private JPanel mainPanel;
     private JPanel buttonPanel;
     private JPanel userNamePanel;
@@ -71,12 +71,6 @@ public class LoginWindow extends JFrame implements ActionListener {
 	txtPassword.setColumns(15);
 
 	buttonPanel.add(btnLogin);
-	btnLogin.addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent event) {
-		
-	    }
-	});
-
 	buttonPanel.add(btnNew);
 	buttonPanel.add(btnCancel);
 
@@ -90,12 +84,16 @@ public class LoginWindow extends JFrame implements ActionListener {
 	// TODO Auto-generated method stub
 
     }
-    
-    public String getUserName(){
+
+    public void addButtonActionListener(ActionListener actionListener) {
+	btnLogin.addActionListener(actionListener);
+    }
+
+    public String getUserName() {
 	return txtUserName.getText();
     }
-    
-    public String getPassword(){
+
+    public String getPassword() {
 	return String.valueOf(txtPassword.getPassword());
     }
 }
