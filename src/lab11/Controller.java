@@ -21,7 +21,8 @@ public class Controller {
     private class Listener implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
-	    if (e.getSource() == view.getBtnLogin()) {
+	    if (e.getSource() == view.getBtnLogin()
+		    || e.getSource() == view.getTxtPassword()) {
 		btnLoginPressed();
 	    } else if (e.getSource() == view.getBtnNew()) {
 		btnNewPressed();
@@ -46,6 +47,7 @@ public class Controller {
 		throw new UnsuccessfulLoginException();
 	    } catch (UnsuccessfulLoginException e) {
 		view.getTxtUserName().requestFocusInWindow();
+		view.getTxtUserName().selectAll();
 		view.showLoginFailedMessage();
 	    }
 	}

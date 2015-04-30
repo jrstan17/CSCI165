@@ -1,7 +1,8 @@
 package lab11;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Container;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -16,15 +17,10 @@ import javax.swing.border.EmptyBorder;
 @SuppressWarnings("serial")
 public class LoginWindow extends JFrame {
 
-    private JPanel mainPanel;
-    private JPanel buttonPanel;
-    private JPanel userNamePanel;
-    private JPanel passwordPanel;
+    private JPanel buttonPanel = new JPanel();
+    private JPanel textPanel = new JPanel(new GridLayout(2,2,10,10));
 
-    private JLabel lblUserName = new JLabel("User Name: ");
     private JTextField txtUserName = new JTextField();
-
-    private JLabel lblPassword = new JLabel("Password: ");
     private JPasswordField txtPassword = new JPasswordField();
 
     private JButton btnLogin = new JButton("Login");
@@ -32,44 +28,24 @@ public class LoginWindow extends JFrame {
     private JButton btnCancel = new JButton("Cancel");
 
     public LoginWindow() {
-
+	
+	Container c = getContentPane();
+	this.setResizable(false);
+	
 	// add GUI objects to the Frame
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	setBounds(100, 100, 668, 509);
 
-	// set main panel
-	mainPanel = new JPanel();
-	mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-	setContentPane(mainPanel);
-	mainPanel.setLayout(new BorderLayout(0, 0));
+	// set north
+	c.add(textPanel, BorderLayout.NORTH);
+	textPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+	textPanel.add(new JLabel("User Name:"));
+	textPanel.add(txtUserName);
+	textPanel.add(new JLabel("Password:"));
+	textPanel.add(txtPassword);
+	txtPassword.setColumns(10);
 
-	// set button panel
-	buttonPanel = new JPanel();
-	buttonPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-	mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-	buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-	// set user name panel
-	userNamePanel = new JPanel();
-	userNamePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-	mainPanel.add(userNamePanel, BorderLayout.NORTH);
-	userNamePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-	// set password panel
-	passwordPanel = new JPanel();
-	passwordPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-	mainPanel.add(passwordPanel, BorderLayout.CENTER);
-	passwordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-	// populate window with controls
-	userNamePanel.add(lblUserName);
-	userNamePanel.add(txtUserName);
-	txtUserName.setColumns(15);
-
-	passwordPanel.add(lblPassword);
-	passwordPanel.add(txtPassword);
-	txtPassword.setColumns(15);
-
+	// set south
+	c.add(buttonPanel, BorderLayout.SOUTH);
 	buttonPanel.add(btnLogin);
 	buttonPanel.add(btnNew);
 	buttonPanel.add(btnCancel);
@@ -84,6 +60,7 @@ public class LoginWindow extends JFrame {
 	btnLogin.addActionListener(listenForButton);
 	btnNew.addActionListener(listenForButton);
 	btnCancel.addActionListener(listenForButton);
+	txtPassword.addActionListener(listenForButton);
     }
 
     public void clearFields() {
