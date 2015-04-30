@@ -2,78 +2,118 @@ package lab11;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.regex.Pattern;
 
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+public class Controller {
 
-public class Controller implements ActionListener {
+    TextFileService service = new TextFileService();
+    LoginWindow view = new LoginWindow();
 
-    TextFileService service;
+    public Controller(TextFileService service, LoginWindow view) {
 
-    private JTextField txtUserName;
-    private JPasswordField txtPassword;
-    private JButton btnLogin;
-    private JButton btnNew;
-    private JButton btnCancel;
+	this.service = service;
+	this.view = view;
 
-    public Controller(HashMap<String, Object> componentBundle) {
+	this.view.setVisible(true);
+	this.view.addListener(new Listener());
+    }
 
-	updateComponentBundle(componentBundle);
+    private class Listener implements ActionListener {
+
+	public void actionPerformed(ActionEvent e) {
+	    if (e.getSource() == view.getBtnLogin()) {
+		btnLoginPressed();
+	    } else if (e.getSource() == view.getBtnNew()) {
+		btnNewPressed();
+	    } else if (e.getSource() == view.getBtnCancel()) {
+		btnCancelPressed();
+	    }
+	}
+    }
+
+    public void btnCancelPressed() {
+	view.clearFields();
+	view.getTxtUserName().requestFocusInWindow();
+    }
+
+    public void btnLoginPressed() {
+	Account account = makeNewAccount();
+
+	if (service.isCorrect(account)) {
+	    view.showLoginSuccessfulMessage();
+	} else {
+	    try {
+		throw new UnsuccessfulLoginException();
+	    } catch (UnsuccessfulLoginException e) {
+		view.getTxtUserName().requestFocusInWindow();
+		view.showLoginFailedMessage();
+	    }
+	}
+    }
+
+    public void btnNewPressed() {
+	Account account = makeNewAccount();
 
 	try {
-	    service = new TextFileService();
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
+	    if (service.isExistingAccount(account.getUsername())) {
+		throw new ExistingAccountException();
+	    }
+	} catch (ExistingAccountException e1) {
+	    view.getTxtUserName().setText("");
+	    view.getTxtUserName().requestFocusInWindow();
+	    view.showUserAlreadyExistsMessage();
+	    return;
 	}
 
-	service.populateAccountsFromFile();
-    }
-
-    public void updateComponentBundle(HashMap<String, Object> componentBundle) {
-	this.txtUserName = (JTextField) componentBundle.get("txtUserName");
-	this.txtPassword = (JPasswordField) componentBundle.get("txtPassword");
-	this.btnLogin = (JButton) componentBundle.get("btnLogin");
-	this.btnNew = (JButton) componentBundle.get("btnNew");
-	this.btnCancel = (JButton) componentBundle.get("btnCancel");
-    }
-
-    public void actionPerformed(ActionEvent ae) {
-
-	Object src = ae.getSource();
-	if (src == btnLogin) {
-	    JOptionPane.showMessageDialog(btnLogin, "LOGIN SUCCESSFUL\n" + ae.getActionCommand(),
-		    "Login Message", JOptionPane.INFORMATION_MESSAGE);
-	} else if (src == btnCancel) {
-	    JOptionPane.showMessageDialog(btnLogin, "LOGIN CANCELLED\n" + ae.getActionCommand(),
-		    "Login Message", JOptionPane.INFORMATION_MESSAGE);
-	}else if (src == btnNew) {
-	    JOptionPane.showMessageDialog(btnLogin, "LOGIN NEW\n" + ae.getActionCommand(),
-		    "Login Message", JOptionPane.INFORMATION_MESSAGE);
+	try {
+	    if (view.getTxtUserName().getText().isEmpty()) {
+		throw new EmptyException();
+	    }
+	} catch (EmptyException e) {
+	    view.getTxtUserName().requestFocusInWindow();
+	    view.showEmptyUserNameMessage();
+	    return;
 	}
+
+	try {
+	    if (view.getTxtPassword().getPassword().length == 0) {
+		throw new EmptyException();
+	    }
+	} catch (EmptyException e) {
+	    view.getTxtPassword().requestFocusInWindow();
+	    view.showEmptyPasswordMessage();
+	    return;
+	}
+
+	try {
+	    for (int i = 0; i < view.getTxtPassword().getPassword().length; i++) {
+		if (Pattern
+			.matches("[" + Password.invalidCharacters + "]",
+				Character.toString((view.getTxtPassword()
+					.getPassword()[i])))) {
+		    throw new InvalidPasswordException();
+		}
+	    }
+
+	} catch (InvalidPasswordException e) {
+	    view.getTxtPassword().setText("");
+	    view.getTxtPassword().requestFocusInWindow();
+	    view.showInvalidPasswordMessage();
+	    return;
+	}
+
+	// write account to file
+	service.write(account);
+	view.showAccountCreationSuccessfulMessage();
+
+	// reset form
+	view.getTxtUserName().requestFocusInWindow();
     }
 
-    public void setTxtUserName(JTextField txtUserName) {
-	this.txtUserName = txtUserName;
-    }
-
-    public void setTxtPassword(JPasswordField txtPassword) {
-	this.txtPassword = txtPassword;
-    }
-
-    public void setBtnLogin(JButton btnLogin) {
-	this.btnLogin = btnLogin;
-    }
-
-    public void setBtnNew(JButton btnNew) {
-	this.btnNew = btnNew;
-    }
-
-    public void setBtnCancel(JButton btnCancel) {
-	this.btnCancel = btnCancel;
+    public Account makeNewAccount() {
+	String userName = view.getTxtUserName().getText();
+	String password = String.copyValueOf(view.getTxtPassword()
+		.getPassword());
+	return new Account(userName, password);
     }
 }

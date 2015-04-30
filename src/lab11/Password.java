@@ -11,6 +11,9 @@ public class Password {
     public final static int SHIFT_MAX = 25;
     public final static int CHAR_LOWER_BOUND = 33;
     public final static int CHAR_UPPER_BOUND = 126;
+    
+    public final static String invalidCharacters = "$`\\\\/\\s";
+    public final static String invalidCharactersVisible = "$ \\ / ` or spaces";
 
     private enum Crypt {
 	ENCRYPT, DECRYPT
@@ -25,16 +28,18 @@ public class Password {
 	text = password;
 	this.encrypt();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    public Password(Password originalObject) {
+	if (originalObject == null) {
+	    System.out.println("Error: null Password object.");
+	    System.exit(0);
+	}
+	// else
+	text = originalObject.text;
+	cipheredText = originalObject.cipheredText;
+	shift = originalObject.shift;
+    }
+
     public String toString() {
 	StringBuilder sb = new StringBuilder();
 
@@ -48,20 +53,6 @@ public class Password {
 
 	return sb.toString();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     public String getText() {
 	return text;

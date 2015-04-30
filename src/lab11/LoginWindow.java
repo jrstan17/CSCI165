@@ -3,7 +3,6 @@ package lab11;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,10 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 @SuppressWarnings("serial")
 public class LoginWindow extends JFrame {
@@ -35,15 +31,10 @@ public class LoginWindow extends JFrame {
     private JButton btnNew = new JButton("New Account");
     private JButton btnCancel = new JButton("Cancel");
 
-    private Controller controller;
-
-    private HashMap<String, Object> componentBundle = new HashMap<String, Object>();
-
     public LoginWindow() {
 
 	// add GUI objects to the Frame
-	setVisible(true);
-	setDefaultCloseOperation(EXIT_ON_CLOSE);
+	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	setBounds(100, 100, 668, 509);
 
 	// set main panel
@@ -83,51 +74,87 @@ public class LoginWindow extends JFrame {
 	buttonPanel.add(btnNew);
 	buttonPanel.add(btnCancel);
 
-	// setup controller class
-	setComponentBundle();
-	controller = new Controller(componentBundle);
-
-	// add action listeners
-	btnLogin.addActionListener(controller);
-	btnNew.addActionListener(controller);
-	btnCancel.addActionListener(controller);
-	txtUserName.addActionListener(controller);
-	
 	pack();
 	setLocationRelativeTo(null);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-    private void setComponentBundle() {
-	componentBundle.put("txtUserName", txtUserName);
-	componentBundle.put("txtPassword", txtPassword);
-	componentBundle.put("btnLogin", btnLogin);
-	componentBundle.put("btnNew", btnNew);
-	componentBundle.put("btnCancel", btnCancel);
+    public void addListener(ActionListener listenForButton) {
+
+	btnLogin.addActionListener(listenForButton);
+	btnNew.addActionListener(listenForButton);
+	btnCancel.addActionListener(listenForButton);
     }
 
-    public HashMap<String, Object> getComponentBundle() {
-	return componentBundle;
+    public void clearFields() {
+	txtUserName.setText("");
+	txtPassword.setText("");
     }
 
-    public static void main(String[] args) {
-	SwingUtilities.invokeLater(new Runnable() {
-	    public void run() {
-		new LoginWindow();
-	    }
-	});
+    public void showAccountCreationSuccessfulMessage() {
+	JOptionPane.showMessageDialog(this, "Account creation successful.",
+		"Login Notice", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void addButtonActionListener(ActionListener actionListener) {
-	btnLogin.addActionListener(actionListener);
+    public void showUserAlreadyExistsMessage() {
+	JOptionPane.showMessageDialog(this,
+		"This user name already exists.\nPlease try again.",
+		"Login Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showEmptyPasswordMessage() {
+	JOptionPane.showMessageDialog(this, "Password cannot be empty.",
+		"Login Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showEmptyUserNameMessage() {
+	JOptionPane.showMessageDialog(this, "User name cannot be empty.",
+		"Login Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showInvalidPasswordMessage() {
+	JOptionPane.showMessageDialog(this,
+		"Passwords cannot contain the following characters:\n"
+			+ Password.invalidCharactersVisible, "Login Error",
+		JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showLoginSuccessfulMessage() {
+	JOptionPane.showMessageDialog(this, "Login Successful!",
+		"Login Notice", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void showLoginFailedMessage() {
+	JOptionPane.showMessageDialog(this,
+		"The user name and/or password is incorrect.\nAccess denied.",
+		"Login Error", JOptionPane.ERROR_MESSAGE);
     }
 
     public String getUserName() {
 	return txtUserName.getText();
     }
 
-    public String getPassword() {
-	return String.valueOf(txtPassword.getPassword());
+    public char[] getPassword() {
+	return txtPassword.getPassword();
     }
 
+    public JTextField getTxtUserName() {
+	return txtUserName;
+    }
+
+    public JPasswordField getTxtPassword() {
+	return txtPassword;
+    }
+
+    public JButton getBtnLogin() {
+	return btnLogin;
+    }
+
+    public JButton getBtnNew() {
+	return btnNew;
+    }
+
+    public JButton getBtnCancel() {
+	return btnCancel;
+    }
 }
