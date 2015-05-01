@@ -1,0 +1,44 @@
+@startuml
+
+Driver *-- Controller
+Controller *-- MainWindow
+Controller *-- ContactService
+Serializable <|-- ContactService
+JFrame <|-- MainWindow
+
+Cloneable <|.. Address
+
+ContactService -- Contact : uses
+Contact *-- Address
+Contact *-- Date
+ContactService *-- BirthdayService
+Contact *-- PhoneNumber
+
+class Address {
+	-String street
+	-String city
+	-String state
+	-String zip
+}
+
+class BirthdayService {
+	+Date getBirthdate()
+	+boolean isBirthdayToday()
+}
+
+interface Cloneable {
+}
+
+class Contact {	
+	-String fName
+	-String lName
+	-PhoneNumber phone
+	-Address address
+	-Date birthdate
+}
+
+class ContactService {
+	-BirthdayService bs
+}
+
+@enduml
