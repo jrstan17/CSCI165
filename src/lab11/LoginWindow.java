@@ -31,9 +31,6 @@ public class LoginWindow extends JFrame {
 	
 	Container c = getContentPane();
 	this.setResizable(false);
-	
-	// add GUI objects to the Frame
-	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	// set north
 	c.add(textPanel, BorderLayout.NORTH);

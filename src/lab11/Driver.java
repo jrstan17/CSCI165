@@ -20,13 +20,6 @@
 //	+void showInvalidPasswordMessage()
 //	+void showLoginSuccessfulMessage()
 //	+void showLoginFailedMessage()
-//	+String getUserName()
-//	+char[] getPassword()
-//	+JTextField getTxtUserName()
-//	+JPasswordField getTxtPassword()
-//	+JButton getBtnLogin()
-//	+JButton getBtnNew()
-//	+JButton getBtnCancel()
 //}
 //class JFrame {
 //}
@@ -34,7 +27,6 @@
 //class Controller {
 //	~TextFileService service
 //	~LoginWindow view
-//	+Controller(TextFileService service, LoginWindow view)
 //	+void btnCancelPressed()
 //	+void btnLoginPressed()
 //	+void btnNewPressed()
@@ -53,6 +45,34 @@
 //
 //
 //
+//class Account {
+//	-Username username
+//	-Password password
+//}
+//
+//
+//class Username {
+//	-String username
+//}
+//
+//
+//
+//class Password {
+//	-String text
+//	-String cipheredText
+//	-int shift
+//	+{static}int SHIFT_MIN
+//	+{static}int SHIFT_MAX
+//	+{static}int CHAR_LOWER_BOUND
+//	+{static}int CHAR_UPPER_BOUND
+//	+{static}String invalidCharacters
+//	+{static}String invalidCharactersVisible
+//	+void encrypt()
+//	+void decrypt()
+//	-char shiftChar(char c, Crypt crypt)
+//	-void setRandomShift()
+//}
+//
 //
 //
 //LoginWindow --* Driver
@@ -60,10 +80,10 @@
 //Driver *-- Controller
 //Controller *-- LoginWindow
 //Controller *-- TextFileService
+//Controller -- Account : makes
+//Account *-- Username
+//Account *-- Password
 //@enduml
-
-
-
 
 package lab11;
 
@@ -76,7 +96,7 @@ public class Driver {
 	    public void run() {
 		LoginWindow lw = new LoginWindow();
 		TextFileService tfs = new TextFileService();
-		
+
 		@SuppressWarnings("unused")
 		Controller c = new Controller(tfs, lw);
 	    }
