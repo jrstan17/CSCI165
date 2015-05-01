@@ -9,11 +9,7 @@ public class Controller {
     TextFileService service = new TextFileService();
     LoginWindow view = new LoginWindow();
 
-    public Controller(TextFileService service, LoginWindow view) {
-
-	this.service = service;
-	this.view = view;
-
+    public Controller() {
 	this.view.setVisible(true);
 	this.view.addListener(new Listener());
     }
