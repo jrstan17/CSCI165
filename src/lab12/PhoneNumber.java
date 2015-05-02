@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.regex.Pattern;
 
 public class PhoneNumber implements Serializable{
+    private static final long serialVersionUID = 7335515713086090633L;
     private static final int NUMBER_LENGTH_WO_INTERNATIONAL = 10;
     private static final int NUMBER_LENGTH_W_INTERNATIONAL = 11;
 

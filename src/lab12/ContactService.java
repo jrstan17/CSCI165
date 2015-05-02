@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class ContactService {
 
     private static final String DATA_FILE_LOCATION = "src\\lab12\\data.txt";
-    ArrayList<Contact> contacts = new ArrayList<Contact>();
+    private ArrayList<Contact> contacts = new ArrayList<Contact>();
     
     public ContactService(){
 	readContactsFromFile();

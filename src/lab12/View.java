@@ -93,9 +93,10 @@ public class View extends JFrame {
 	form.add(txtPhone);
 	
 
-	// add items to combo box
-	cmbState.addItem("Family");
-	cmbState.addItem("Business");
+	// add states to combo box
+	for (int i = 0; i < States.NUMBER_OF_STATES_AND_DC; i++){
+	    cmbState.addItem(States.getStatesArray()[i].displayName());
+	}
 
 	// add FORM to Tabbed area
 	center.add(form);
@@ -125,6 +126,18 @@ public class View extends JFrame {
 	btnFind.addActionListener(al);
 	
 	txtFName.addActionListener(al);
+    }
+    
+    public void updateViewWithContact (Contact contact){
+	txtFName.setText(contact.getFName());
+	txtLName.setText(contact.getLName());
+	txtStreet.setText(contact.getAddress().getStreet());
+	txtCity.setText(contact.getAddress().getCity());
+	cmbState.setSelectedItem(contact.getAddress().getState().displayName());
+	txtZip.setText(contact.getAddress().getZip());
+	txtEmail.setText(contact.getEmail());
+	txtPhone.setText(contact.getPhone().getPhoneNumber());
+	notesText.setText(contact.getNotes());
     }
 
     public JButton getBtnFirst() {

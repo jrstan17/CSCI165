@@ -7,10 +7,12 @@ import java.util.Locale;
 
 public class Contact implements Serializable{
 
-    private String fName;
-    private String lName;
-    private String email;
+    private static final long serialVersionUID = 5147644076822841959L;
+    private String fName = "";
+    private String lName = "";
+    private String email = "";
     private PhoneNumber phone;
+    private String notes = "";
     private Address address;
     private GregorianCalendar birthday;
     
@@ -31,6 +33,9 @@ public class Contact implements Serializable{
 	sb.append(birthday.get(Calendar.DATE));
 	sb.append (", ");
 	sb.append(birthday.get(Calendar.YEAR));
+	sb.append("\n");
+	sb.append("Notes: ");
+	sb.append(notes);
 	sb.append("\n");
 
 	return sb.toString();
@@ -82,5 +87,13 @@ public class Contact implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

@@ -5,13 +5,13 @@ import java.io.Serializable;
 public class Address implements Cloneable, Serializable {
     private String street = "";
     private String city = "";
-    private String state = "";
+    private States state = States.AL;
     private String zip = "";
 
     public Address() {
 	street = "street";
 	city = "city";
-	state = "state";
+	state = States.AL;
 	zip = "zip";
     }
 
@@ -79,12 +79,20 @@ public class Address implements Cloneable, Serializable {
 	this.city = city;
     }
 
-    public String getState() {
+    public States getState() {
 	return state;
     }
 
-    public void setState(String state) {
+    public void setState(States state) {
 	this.state = state;
+    }
+    
+    public void setState(String state){
+	for (States s : States.values()){
+	    if (state.equals(s.displayName())){
+		this.state = s;
+	    }
+	}
     }
 
     public String getZip() {
