@@ -5,14 +5,11 @@ import java.io.Serializable;
 public class Address implements Cloneable, Serializable {
     private String street = "";
     private String city = "";
-    private States state = States.AL;
+    private States state = States.NA;
     private String zip = "";
 
     public Address() {
-	street = "street";
-	city = "city";
-	state = States.AL;
-	zip = "zip";
+
     }
 
     public Address(Address originalObject) {
