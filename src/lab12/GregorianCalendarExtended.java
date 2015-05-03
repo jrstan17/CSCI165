@@ -13,7 +13,7 @@ public class GregorianCalendarExtended extends GregorianCalendar {
     }
 
     public GregorianCalendarExtended(String string) {
-	this.set(Calendar.MONTH, Integer.valueOf(string.substring(0, 2)));
+	this.set(Calendar.MONTH, Integer.valueOf(string.substring(0, 2)) - 1);
 	this.set(Calendar.DATE, Integer.valueOf(string.substring(3, 5)));
 	this.set(Calendar.YEAR, Integer.valueOf(string.substring(6)));
     }
@@ -21,7 +21,7 @@ public class GregorianCalendarExtended extends GregorianCalendar {
     public String toString() {
 	StringBuilder sb = new StringBuilder();
 
-	sb.append(this.get(Calendar.MONTH));
+	sb.append(this.get(Calendar.MONTH) + 1);
 	sb.append("/");
 	sb.append(this.get(Calendar.DATE));
 	sb.append("/");

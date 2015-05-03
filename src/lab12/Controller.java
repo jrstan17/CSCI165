@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 public class Controller {
     private View view = new View();
+    private FindView fv;
     private ContactService cs = new ContactService();
     private int contactIndex = 0;
 
@@ -50,40 +51,48 @@ public class Controller {
     }
 
     public void btnFindPressed() {
-	// TODO Auto-generated method stub
-
+	view.setEnabled(false);
+	fv = new FindView();
+	fv.setVisible(true);
     }
 
     public void btnDeletePressed() {
+	if (cs.getContacts().size() == 1) {
+	    view.showMustHaveOneMessage();
+	    view.getTxtFName().requestFocusInWindow();
+	    view.getTxtFName().selectAll();
+	    return;
+	}
+
 	cs.getContacts().remove(contactIndex);
 
 	if (contactIndex < cs.getContacts().size()) {
 	    Contact c = cs.getContacts().get(contactIndex);
 	    view.updateViewWithContact(c);
-	}
-	else{
+	} else {
 	    contactIndex--;
 	    Contact c = cs.getContacts().get(contactIndex);
 	    cs.writeContactsToFile();
 	    view.updateViewWithContact(c);
-	}	
+	}
     }
 
     public void btnAddPressed() {
 	view.clearFields();
 	contactIndex = cs.getContacts().size();
 	cs.getContacts().add(new Contact());
-	
+	view.getTxtFName().requestFocusInWindow();
     }
 
-    public void btnSavePressed() {	
-	if (!Pattern.matches(GregorianCalendarExtended.DATE_FORMAT, view.getTxtBirthday().getText())){
+    public void btnSavePressed() {
+	if (!Pattern.matches(GregorianCalendarExtended.DATE_FORMAT, view
+		.getTxtBirthday().getText())) {
 	    view.showDateIncorrectFormatMessage();
 	    return;
 	}
-	
+
 	Contact contact = cs.getContacts().get(contactIndex);
-	
+
 	contact.setFName(view.getTxtFName().getText());
 	contact.setLName(view.getTxtLName().getText());
 	contact.getAddress().setStreet(view.getTxtStreet().getText());
@@ -93,7 +102,8 @@ public class Controller {
 	contact.getAddress().setZip(view.getTxtZip().getText());
 	contact.setEmail(view.getTxtEmail().getText());
 	contact.getPhone().setPhoneNumber(view.getTxtPhone().getText());
-	contact.setBirthday(new GregorianCalendarExtended(view.getTxtBirthday().getText()));	
+	contact.setBirthday(new GregorianCalendarExtended(view.getTxtBirthday()
+		.getText()));
 	contact.setNotes(view.getNotesText().getText());
 
 	cs.writeContactsToFile();

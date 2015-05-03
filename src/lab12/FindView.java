@@ -17,7 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class View extends JFrame {
+public class FindView extends JFrame {
 
     // define GUI elements
     // NORTH AREA
@@ -51,7 +51,7 @@ public class View extends JFrame {
     private JTextField txtPhone = new JTextField();
     private JTextField txtBirthday = new JTextField();
 
-    public View() {
+    public FindView() {
 
 	// get reference to JFrame content pane
 	Container c = getContentPane();
