@@ -2,8 +2,7 @@ package lab12;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.regex.Pattern;
 
 public class Controller {
     private View view = new View();
@@ -38,11 +37,8 @@ public class Controller {
 		btnDeletePressed();
 	    } else if (e.getSource() == view.getBtnFind()) {
 		btnFindPressed();
-	    } else if (e.getSource() == view.getTxtFName()) {
-		txtFNameChanged();
 	    }
 	}
-
     }
 
     private void btnFirstPressed() {
@@ -53,28 +49,41 @@ public class Controller {
 	}
     }
 
-    public void txtFNameChanged() {
-
-    }
-
     public void btnFindPressed() {
 	// TODO Auto-generated method stub
 
     }
 
     public void btnDeletePressed() {
-	// TODO Auto-generated method stub
+	cs.getContacts().remove(contactIndex);
 
+	if (contactIndex < cs.getContacts().size()) {
+	    Contact c = cs.getContacts().get(contactIndex);
+	    view.updateViewWithContact(c);
+	}
+	else{
+	    contactIndex--;
+	    Contact c = cs.getContacts().get(contactIndex);
+	    cs.writeContactsToFile();
+	    view.updateViewWithContact(c);
+	}	
     }
 
     public void btnAddPressed() {
-	// TODO Auto-generated method stub
-
+	view.clearFields();
+	contactIndex = cs.getContacts().size();
+	cs.getContacts().add(new Contact());
+	
     }
 
-    public void btnSavePressed() {
+    public void btnSavePressed() {	
+	if (!Pattern.matches(GregorianCalendarExtended.DATE_FORMAT, view.getTxtBirthday().getText())){
+	    view.showDateIncorrectFormatMessage();
+	    return;
+	}
+	
 	Contact contact = cs.getContacts().get(contactIndex);
-
+	
 	contact.setFName(view.getTxtFName().getText());
 	contact.setLName(view.getTxtLName().getText());
 	contact.getAddress().setStreet(view.getTxtStreet().getText());
@@ -84,8 +93,9 @@ public class Controller {
 	contact.getAddress().setZip(view.getTxtZip().getText());
 	contact.setEmail(view.getTxtEmail().getText());
 	contact.getPhone().setPhoneNumber(view.getTxtPhone().getText());
+	contact.setBirthday(new GregorianCalendarExtended(view.getTxtBirthday().getText()));	
 	contact.setNotes(view.getNotesText().getText());
-	
+
 	cs.writeContactsToFile();
     }
 
@@ -113,4 +123,5 @@ public class Controller {
 	    view.updateViewWithContact(contact);
 	}
     }
+
 }

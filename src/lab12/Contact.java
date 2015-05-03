@@ -1,20 +1,17 @@
 package lab12;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 
-public class Contact implements Serializable{
+public class Contact implements Serializable, Comparable<Contact>{
 
     private static final long serialVersionUID = 5147644076822841959L;
     private String fName = "";
     private String lName = "";
     private String email = "";
-    private PhoneNumber phone;
+    private PhoneNumber phone = new PhoneNumber("");
     private String notes = "";
-    private Address address;
-    private GregorianCalendar birthday;
+    private Address address = new Address();
+    private GregorianCalendarExtended birthday = new GregorianCalendarExtended();
     
     public String toString() {
 	StringBuilder sb = new StringBuilder();
@@ -28,17 +25,18 @@ public class Contact implements Serializable{
 	sb.append(address);
 	sb.append(phone);
 	sb.append("Birthday: ");
-	sb.append(birthday.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US));
-	sb.append(" ");
-	sb.append(birthday.get(Calendar.DATE));
-	sb.append (", ");
-	sb.append(birthday.get(Calendar.YEAR));
+	sb.append(birthday);
 	sb.append("\n");
 	sb.append("Notes: ");
 	sb.append(notes);
 	sb.append("\n");
 
 	return sb.toString();
+    }
+    
+    @Override
+    public int compareTo(Contact o) {
+	return this.lName.compareTo(o.lName);
     }
 
     public String getFName() {
@@ -73,11 +71,11 @@ public class Contact implements Serializable{
 	this.address = address;
     }
 
-    public GregorianCalendar getBirthday() {
+    public GregorianCalendarExtended getBirthday() {
 	return birthday;
     }
-
-    public void setBirthday(GregorianCalendar birthday) {
+    
+    public void setBirthday(GregorianCalendarExtended birthday) {
 	this.birthday = birthday;
     }
 

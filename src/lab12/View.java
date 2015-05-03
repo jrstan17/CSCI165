@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -36,7 +37,7 @@ public class View extends JFrame {
 
     // CENTER AREA
     JTabbedPane center = new JTabbedPane();
-    JPanel form = new JPanel(new GridLayout(8, 2, 5, 5));
+    JPanel form = new JPanel(new GridLayout(9, 2, 5, 5));
     JPanel notes = new JPanel();
     JScrollPane jsp = new JScrollPane();
     JTextArea notesText = new JTextArea(10, 30);
@@ -44,14 +45,13 @@ public class View extends JFrame {
     JTextField txtLName = new JTextField();
     JTextField txtStreet = new JTextField();
     JTextField txtCity = new JTextField();
+    JComboBox<String> cmbState = new JComboBox<String>();
     JTextField txtZip = new JTextField();
     JTextField txtEmail = new JTextField();
     JTextField txtPhone = new JTextField();
-    JComboBox<String> cmbState = new JComboBox<String>();
+    JTextField txtBirthday = new JTextField();
 
     public View() {
-
-	setTitle("Contacts");
 
 	// get reference to JFrame content pane
 	Container c = getContentPane();
@@ -91,10 +91,11 @@ public class View extends JFrame {
 	form.add(txtEmail);
 	form.add(new JLabel("Phone"));
 	form.add(txtPhone);
-	
+	form.add(new JLabel("Birthday"));
+	form.add(txtBirthday);
 
-	// add states to combo box
-	for (int i = 0; i < States.NUMBER_OF_STATES_AND_DC; i++){
+	// add state elements to combo box
+	for (int i = 0; i < States.ELEMENTS; i++) {
 	    cmbState.addItem(States.getStatesArray()[i].displayName());
 	}
 
@@ -113,7 +114,7 @@ public class View extends JFrame {
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	pack();
     }
-    
+
     public void addListener(ActionListener al) {
 
 	btnFirst.addActionListener(al);
@@ -124,11 +125,9 @@ public class View extends JFrame {
 	btnAdd.addActionListener(al);
 	btnDelete.addActionListener(al);
 	btnFind.addActionListener(al);
-	
-	txtFName.addActionListener(al);
     }
-    
-    public void updateViewWithContact (Contact contact){
+
+    public void updateViewWithContact(Contact contact) {
 	txtFName.setText(contact.getFName());
 	txtLName.setText(contact.getLName());
 	txtStreet.setText(contact.getAddress().getStreet());
@@ -137,142 +136,142 @@ public class View extends JFrame {
 	txtZip.setText(contact.getAddress().getZip());
 	txtEmail.setText(contact.getEmail());
 	txtPhone.setText(contact.getPhone().getPhoneNumber());
+	txtBirthday.setText(contact.getBirthday().toString());
 	notesText.setText(contact.getNotes());
+
+	if (!txtFName.getText().isEmpty() || !txtLName.getText().isEmpty()) {
+	    setTitle(contact.getLName() + ", " + contact.getFName());
+	}
+    }
+
+    public void clearFields() {
+	getTxtFName().setText("");
+	getTxtLName().setText("");
+	getTxtStreet().setText("");
+	getCmbState().setSelectedIndex(0);
+	getTxtCity().setText("");
+	getTxtZip().setText("");
+	getTxtEmail().setText("");
+	getTxtPhone().setText("");
+	getTxtBirthday().setText("");
+	setTitle("Contacts");
+    }
+
+    public void showDateIncorrectFormatMessage() {
+	JOptionPane.showMessageDialog(this,
+		"The birthdate is not in the correct format.\nMM/DD/YYYY.",
+		"Incorrect Date Format", JOptionPane.ERROR_MESSAGE);
     }
 
     public JButton getBtnFirst() {
-        return btnFirst;
-    }
-
-    public void setBtnFirst(JButton btnFirst) {
-        this.btnFirst = btnFirst;
+	return btnFirst;
     }
 
     public JButton getBtnPrevious() {
-        return btnPrevious;
-    }
-
-    public void setBtnPrevious(JButton btnPrevious) {
-        this.btnPrevious = btnPrevious;
+	return btnPrevious;
     }
 
     public JButton getBtnNext() {
-        return btnNext;
-    }
-
-    public void setBtnNext(JButton btnNext) {
-        this.btnNext = btnNext;
+	return btnNext;
     }
 
     public JButton getBtnLast() {
-        return btnLast;
-    }
-
-    public void setBtnLast(JButton btnLast) {
-        this.btnLast = btnLast;
+	return btnLast;
     }
 
     public JButton getBtnSave() {
-        return btnSave;
-    }
-
-    public void setBtnSave(JButton btnSave) {
-        this.btnSave = btnSave;
+	return btnSave;
     }
 
     public JButton getBtnAdd() {
-        return btnAdd;
-    }
-
-    public void setBtnAdd(JButton btnAdd) {
-        this.btnAdd = btnAdd;
+	return btnAdd;
     }
 
     public JButton getBtnDelete() {
-        return btnDelete;
-    }
-
-    public void setBtnDelete(JButton btnDelete) {
-        this.btnDelete = btnDelete;
+	return btnDelete;
     }
 
     public JButton getBtnFind() {
-        return btnFind;
-    }
-
-    public void setBtnFind(JButton btnFind) {
-        this.btnFind = btnFind;
+	return btnFind;
     }
 
     public JTextArea getNotesText() {
-        return notesText;
+	return notesText;
     }
 
     public void setNotesText(JTextArea notesText) {
-        this.notesText = notesText;
+	this.notesText = notesText;
     }
 
     public JTextField getTxtFName() {
-        return txtFName;
+	return txtFName;
     }
 
     public void setTxtFName(JTextField txtFName) {
-        this.txtFName = txtFName;
+	this.txtFName = txtFName;
     }
 
     public JTextField getTxtLName() {
-        return txtLName;
+	return txtLName;
     }
 
     public void setTxtLName(JTextField txtLName) {
-        this.txtLName = txtLName;
+	this.txtLName = txtLName;
     }
 
     public JTextField getTxtStreet() {
-        return txtStreet;
+	return txtStreet;
     }
 
     public void setTxtStreet(JTextField txtStreet) {
-        this.txtStreet = txtStreet;
+	this.txtStreet = txtStreet;
     }
 
     public JTextField getTxtCity() {
-        return txtCity;
+	return txtCity;
     }
 
     public void setTxtCity(JTextField txtCity) {
-        this.txtCity = txtCity;
+	this.txtCity = txtCity;
     }
 
     public JTextField getTxtZip() {
-        return txtZip;
+	return txtZip;
     }
 
     public void setTxtZip(JTextField txtZip) {
-        this.txtZip = txtZip;
+	this.txtZip = txtZip;
     }
 
     public JTextField getTxtEmail() {
-        return txtEmail;
+	return txtEmail;
     }
 
     public void setTxtEmail(JTextField txtEmail) {
-        this.txtEmail = txtEmail;
+	this.txtEmail = txtEmail;
     }
 
     public JTextField getTxtPhone() {
-        return txtPhone;
+	return txtPhone;
     }
 
     public void setTxtPhone(JTextField txtPhone) {
-        this.txtPhone = txtPhone;
+	this.txtPhone = txtPhone;
+    }
+
+    public JTextField getTxtBirthday() {
+	return txtBirthday;
+    }
+
+    public void setTxtBirthday(JTextField txtBirthday) {
+	this.txtBirthday = txtBirthday;
     }
 
     public JComboBox<String> getCmbState() {
-        return cmbState;
+	return cmbState;
     }
 
     public void setCmbState(JComboBox<String> cmbState) {
-        this.cmbState = cmbState;
+	this.cmbState = cmbState;
     }
 }

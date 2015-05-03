@@ -63,7 +63,7 @@ public class ContactService {
 	} catch (FileNotFoundException e) {
 	    e.printStackTrace();
 	} catch (IOException e) {
-	    e.printStackTrace();
+	    contacts.add(new Contact());
 	} catch (ClassNotFoundException e) {
 	    e.printStackTrace();
 	}

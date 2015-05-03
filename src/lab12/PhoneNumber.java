@@ -69,6 +69,7 @@ public class PhoneNumber implements Serializable{
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+	this.phoneNumber = phoneNumber;
+	parseNumber();        
     }
 }
