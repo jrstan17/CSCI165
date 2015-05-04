@@ -26,7 +26,13 @@ public class Controller {
 
 	Contact firstContact = cs.getContacts().get(0);
 
-	view.updateViewWithContact(firstContact);
+	view.updateViewWithContact(firstContact, contactIndex + 1, cs
+		.getContacts().size());
+	view.toggleFirstAndPrevButtons(false);
+	
+	if (cs.getContacts().size() == 1){
+	    view.toggleLastAndNextButtons(false);
+	}
 
 	bDayCheck(firstContact);
     }
@@ -59,6 +65,7 @@ public class Controller {
 	public void windowClosing(WindowEvent e) {
 	    if (saveContact() == 0) {
 		view.getMainFrame().dispose();
+		System.exit(0);
 	    }
 	}
 
@@ -90,8 +97,8 @@ public class Controller {
 		btnNextPressed();
 	    } else if (e.getSource() == view.getBtnLast()) {
 		btnLastPressed();
-	    } else if (e.getSource() == view.getBtnAdd()) {
-		btnAddPressed();
+	    } else if (e.getSource() == view.getBtnNew()) {
+		btnNewPressed();
 	    } else if (e.getSource() == view.getBtnDelete()) {
 		btnDeletePressed();
 	    } else if (e.getSource() == view.getBtnFind()) {
@@ -100,56 +107,54 @@ public class Controller {
 	}
     }
 
-    private void btnFirstPressed() {
-	if (saveContact() == 0) {
-	    if (contactIndex != 0) {
-		contactIndex = 0;
-		Contact contact = cs.getContacts().get(contactIndex);
-		view.updateViewWithContact(contact);
-
-		bDayCheck(contact);
-	    }
-	}
-    }
-
     public void btnFindPressed() {
-	view.setEnabled(false);
-	fv = new FindView();
-	fv.setVisible(true);
+	view.getMainFrame().setEnabled(false);
+	fv = new FindView(view.getMainFrame());
     }
 
     public void btnDeletePressed() {
+
 	int messageResult = Messages.showDeleteContactMessage(view
 		.getMainFrame(), view.getTxtFName().getText(), view
 		.getTxtLName().getText());
 
 	if (messageResult == 0) {
-	    if (cs.getContacts().size() == 1) {
-		Messages.showMustHaveOneMessage(view);
-		view.getTxtFName().requestFocusInWindow();
-		view.getTxtFName().selectAll();
-		return;
-	    }
 
 	    cs.getContacts().remove(contactIndex);
 
 	    if (contactIndex < cs.getContacts().size()) {
 		Contact c = cs.getContacts().get(contactIndex);
-		view.updateViewWithContact(c);
+		view.updateViewWithContact(c, contactIndex + 1, cs
+			.getContacts().size());
 	    } else {
 		contactIndex--;
 		Contact c = cs.getContacts().get(contactIndex);
 		cs.writeContactsToFile();
-		view.updateViewWithContact(c);
+		view.updateViewWithContact(c, contactIndex + 1, cs
+			.getContacts().size());
+	    }
+
+	    if (cs.getContacts().size() == 1) {
+		view.getBtnDelete().setEnabled(false);
+		view.toggleFirstAndPrevButtons(false);
+		view.toggleLastAndNextButtons(false);
 	    }
 	}
     }
 
-    public void btnAddPressed() {
+    public void btnNewPressed() {
 	if (saveContact() == 0) {
 	    view.clearFields();
 	    contactIndex = cs.getContacts().size();
 	    cs.getContacts().add(new Contact());
+
+	    if (!view.getBtnDelete().isEnabled()) {
+		view.getBtnDelete().setEnabled(true);
+	    }
+	    
+	    view.toggleFirstAndPrevButtons(true);
+	    view.toggleLastAndNextButtons(false);
+
 	    view.getTxtFName().requestFocusInWindow();
 	}
     }
@@ -162,6 +167,12 @@ public class Controller {
 	    Messages.showDateIncorrectFormatMessage(view.getMainFrame());
 	    view.getTxtBirthday().requestFocusInWindow();
 	    view.getTxtBirthday().selectAll();
+	    return -1;
+	}
+
+	if (view.getTxtLName().getText().isEmpty()) {
+	    Messages.showLNameMissingMessage(view.getMainFrame());
+	    view.getTxtLName().requestFocusInWindow();
 	    return -1;
 	}
 
@@ -184,10 +195,25 @@ public class Controller {
 	contact.setNotes(view.getNotesText().getText());
 
 	cs.writeContactsToFile();
-	
+
 	Collections.sort(cs.getContacts());
 
 	return 0;
+    }
+
+    private void btnFirstPressed() {
+	if (saveContact() == 0) {
+	    if (contactIndex != 0) {
+		contactIndex = 0;
+		Contact contact = cs.getContacts().get(contactIndex);
+		view.updateViewWithContact(contact, contactIndex + 1, cs
+			.getContacts().size());
+		view.toggleFirstAndPrevButtons(false);
+		view.toggleLastAndNextButtons(true);
+
+		bDayCheck(contact);
+	    }
+	}
     }
 
     public void btnLastPressed() {
@@ -195,7 +221,10 @@ public class Controller {
 	    if (contactIndex != cs.getContacts().size() - 1) {
 		contactIndex = cs.getContacts().size() - 1;
 		Contact contact = cs.getContacts().get(contactIndex);
-		view.updateViewWithContact(contact);
+		view.updateViewWithContact(contact, contactIndex + 1, cs
+			.getContacts().size());
+		view.toggleFirstAndPrevButtons(true);
+		view.toggleLastAndNextButtons(false);
 
 		bDayCheck(contact);
 	    }
@@ -204,25 +233,38 @@ public class Controller {
 
     public void btnNextPressed() {
 	if (saveContact() == 0) {
-	    if (contactIndex < cs.getContacts().size() - 1) {
-		contactIndex++;
-		Contact contact = cs.getContacts().get(contactIndex);
-		view.updateViewWithContact(contact);
-
-		bDayCheck(contact);
+	    view.toggleFirstAndPrevButtons(true);
+	    
+	    if (contactIndex == cs.getContacts().size() - 2) {
+		view.toggleFirstAndPrevButtons(true);
+		view.toggleLastAndNextButtons(false);
 	    }
+	    contactIndex++;
+	    Contact contact = cs.getContacts().get(contactIndex);
+	    view.updateViewWithContact(contact, contactIndex + 1, cs
+		    .getContacts().size());
+
+	    bDayCheck(contact);
 	}
     }
 
     public void btnPreviousPressed() {
 	if (saveContact() == 0) {
-	    if (contactIndex > 0) {
-		contactIndex--;
-		Contact contact = cs.getContacts().get(contactIndex);
-		view.updateViewWithContact(contact);
 
-		bDayCheck(contact);
+	    if (contactIndex == 1) {
+		view.toggleFirstAndPrevButtons(false);
+		view.toggleLastAndNextButtons(true);
 	    }
+	    else if (contactIndex != cs.getContacts().size()){
+		view.toggleLastAndNextButtons(true);		
+	    }
+	    contactIndex--;
+	    Contact contact = cs.getContacts().get(contactIndex);
+	    view.updateViewWithContact(contact, contactIndex + 1, cs
+		    .getContacts().size());
+
+	    bDayCheck(contact);
+
 	}
     }
 

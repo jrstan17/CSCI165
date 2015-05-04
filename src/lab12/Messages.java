@@ -9,6 +9,12 @@ public class Messages {
 		"The birthdate is not in the correct format.\nMM/DD/YYYY.",
 		"Incorrect Date Format", JOptionPane.ERROR_MESSAGE);
     }
+    
+    public static void showLNameMissingMessage(JFrame frame) {
+	JOptionPane.showMessageDialog(frame,
+		"The last name field cannot be empty.",
+		"Empty Last Name", JOptionPane.ERROR_MESSAGE);
+    }
 
     public static void showMustHaveOneMessage(JFrame frame) {
 	JOptionPane.showMessageDialog(frame,

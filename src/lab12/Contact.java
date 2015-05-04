@@ -13,6 +13,10 @@ public class Contact implements Serializable, Comparable<Contact>{
     private Address address = new Address();
     private GregorianCalendarExtended birthday;    
     
+    public Contact(){
+	System.out.println();
+    }
+    
     public String toString() {
 	StringBuilder sb = new StringBuilder();
 
@@ -36,6 +40,7 @@ public class Contact implements Serializable, Comparable<Contact>{
     
     @Override
     public int compareTo(Contact o) {
+	lName = lName.substring(0,1).toUpperCase() + lName.substring(1);
 	return this.lName.compareTo(o.lName);
     }
 

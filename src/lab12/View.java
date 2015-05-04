@@ -1,10 +1,12 @@
 package lab12;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -31,7 +33,8 @@ public class View extends JFrame {
 
     // SOUTH AREA
     private JPanel south = new JPanel();
-    private JButton btnAdd = new JButton("ADD");
+    private JLabel lblCurrentContact = new JLabel("Entry 1 of 1");
+    private JButton btnNew = new JButton("NEW");
     private JButton btnDelete = new JButton("DELETE");
     private JButton btnFind = new JButton("FIND");
 
@@ -52,7 +55,6 @@ public class View extends JFrame {
     private JTextField txtBirthday = new JTextField();
 
     public View() {
-
 	// get reference to JFrame content pane
 	mainFrame = new JFrame();
 	mainFrame.setSize(400, 400);
@@ -68,9 +70,11 @@ public class View extends JFrame {
 	mainFrame.add(north, BorderLayout.NORTH);
 
 	// add buttons to SOUTH panel
-	south.add(btnAdd);
+	south.add(btnNew);
 	south.add(btnDelete);
-	south.add(btnFind);
+	south.add(btnFind);	
+		south.add(Box.createRigidArea(new Dimension(20,1)));
+	south.add(lblCurrentContact);
 
 	// add SOUTH panel to JFrame via the ContentPane
 	mainFrame.add(south, BorderLayout.SOUTH);
@@ -123,7 +127,7 @@ public class View extends JFrame {
 	btnPrevious.addActionListener(al);
 	btnNext.addActionListener(al);
 	btnLast.addActionListener(al);
-	btnAdd.addActionListener(al);
+	btnNew.addActionListener(al);
 	btnDelete.addActionListener(al);
 	btnFind.addActionListener(al);
     }
@@ -132,7 +136,8 @@ public class View extends JFrame {
 	mainFrame.addWindowListener(wa);
     }
 
-    public void updateViewWithContact(Contact contact) {
+    public void updateViewWithContact(Contact contact, int current, int total) {
+	lblCurrentContact.setText("Entry " + current + " of " + total);
 	txtFName.setText(contact.getFName());
 	txtLName.setText(contact.getLName());
 	txtStreet.setText(contact.getAddress().getStreet());
@@ -167,6 +172,28 @@ public class View extends JFrame {
 	getTxtBirthday().setText("");
 	mainFrame.setTitle("Contacts");
     }
+    
+    public void toggleFirstAndPrevButtons(boolean enabled){
+	if (enabled){
+	    btnFirst.setEnabled(true);
+	    btnPrevious.setEnabled(true);
+	}
+	else{
+	    btnFirst.setEnabled(false);
+	    btnPrevious.setEnabled(false);	    
+	}
+    }
+    
+    public void toggleLastAndNextButtons(boolean enabled){
+	if (enabled){
+	    btnLast.setEnabled(true);
+	    btnNext.setEnabled(true);
+	}
+	else{
+	    btnLast.setEnabled(false);
+	    btnNext.setEnabled(false);	    
+	}
+    }
 
     public JButton getBtnFirst() {
 	return btnFirst;
@@ -184,8 +211,8 @@ public class View extends JFrame {
 	return btnLast;
     }
 
-    public JButton getBtnAdd() {
-	return btnAdd;
+    public JButton getBtnNew() {
+	return btnNew;
     }
 
     public JButton getBtnDelete() {
