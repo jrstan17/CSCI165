@@ -2,23 +2,83 @@ package lab12;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.regex.Pattern;
 
 public class Controller {
+
+    // create views
     private View view = new View();
     private FindView fv;
+
+    // create services
     private ContactService cs = new ContactService();
+
     private int contactIndex = 0;
 
     public Controller() {
-	this.view.setVisible(true);
-	this.view.addListener(new Listener());
+	this.view.getMainFrame().setVisible(true);
+	this.view.addActionListener(new AListener());
+	this.view.getMainFrame().addWindowListener(new WListener());
 
-	Contact firstContact = cs.getContacts().get(contactIndex);
+	Contact firstContact = cs.getContacts().get(0);
+
 	view.updateViewWithContact(firstContact);
+
+	bDayCheck(firstContact);
     }
 
-    private class Listener implements ActionListener {
+    private boolean isBDayToday(Contact c) {
+	GregorianCalendarExtended today = new GregorianCalendarExtended();
+
+	if (c.getBirthday() != null) {
+	    return (today.get(Calendar.MONTH) == c.getBirthday().get(
+		    Calendar.MONTH) && today.get(Calendar.DATE) == c
+		    .getBirthday().get(Calendar.DATE));
+	} else {
+	    return false;
+	}
+    }
+
+    private void bDayCheck(Contact contact) {
+	if (isBDayToday(contact)) {
+	    Messages.showBDayMessage(view.getMainFrame(), view.getTxtFName()
+		    .getText());
+	}
+    }
+
+    private class WListener implements WindowListener {
+
+	public void windowOpened(WindowEvent e) {
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+	    if (saveContact() == 0) {
+		view.getMainFrame().dispose();
+	    }
+	}
+
+	public void windowClosed(WindowEvent e) {
+	}
+
+	public void windowIconified(WindowEvent e) {
+	}
+
+	public void windowDeiconified(WindowEvent e) {
+	}
+
+	public void windowActivated(WindowEvent e) {
+	}
+
+	public void windowDeactivated(WindowEvent e) {
+	}
+    }
+
+    private class AListener implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 
@@ -30,8 +90,6 @@ public class Controller {
 		btnNextPressed();
 	    } else if (e.getSource() == view.getBtnLast()) {
 		btnLastPressed();
-	    } else if (e.getSource() == view.getBtnSave()) {
-		btnSavePressed();
 	    } else if (e.getSource() == view.getBtnAdd()) {
 		btnAddPressed();
 	    } else if (e.getSource() == view.getBtnDelete()) {
@@ -43,10 +101,14 @@ public class Controller {
     }
 
     private void btnFirstPressed() {
-	if (contactIndex != 0) {
-	    contactIndex = 0;
-	    Contact contact = cs.getContacts().get(contactIndex);
-	    view.updateViewWithContact(contact);
+	if (saveContact() == 0) {
+	    if (contactIndex != 0) {
+		contactIndex = 0;
+		Contact contact = cs.getContacts().get(contactIndex);
+		view.updateViewWithContact(contact);
+
+		bDayCheck(contact);
+	    }
 	}
     }
 
@@ -57,38 +119,50 @@ public class Controller {
     }
 
     public void btnDeletePressed() {
-	if (cs.getContacts().size() == 1) {
-	    view.showMustHaveOneMessage();
-	    view.getTxtFName().requestFocusInWindow();
-	    view.getTxtFName().selectAll();
-	    return;
-	}
+	int messageResult = Messages.showDeleteContactMessage(view
+		.getMainFrame(), view.getTxtFName().getText(), view
+		.getTxtLName().getText());
 
-	cs.getContacts().remove(contactIndex);
+	if (messageResult == 0) {
+	    if (cs.getContacts().size() == 1) {
+		Messages.showMustHaveOneMessage(view);
+		view.getTxtFName().requestFocusInWindow();
+		view.getTxtFName().selectAll();
+		return;
+	    }
 
-	if (contactIndex < cs.getContacts().size()) {
-	    Contact c = cs.getContacts().get(contactIndex);
-	    view.updateViewWithContact(c);
-	} else {
-	    contactIndex--;
-	    Contact c = cs.getContacts().get(contactIndex);
-	    cs.writeContactsToFile();
-	    view.updateViewWithContact(c);
+	    cs.getContacts().remove(contactIndex);
+
+	    if (contactIndex < cs.getContacts().size()) {
+		Contact c = cs.getContacts().get(contactIndex);
+		view.updateViewWithContact(c);
+	    } else {
+		contactIndex--;
+		Contact c = cs.getContacts().get(contactIndex);
+		cs.writeContactsToFile();
+		view.updateViewWithContact(c);
+	    }
 	}
     }
 
     public void btnAddPressed() {
-	view.clearFields();
-	contactIndex = cs.getContacts().size();
-	cs.getContacts().add(new Contact());
-	view.getTxtFName().requestFocusInWindow();
+	if (saveContact() == 0) {
+	    view.clearFields();
+	    contactIndex = cs.getContacts().size();
+	    cs.getContacts().add(new Contact());
+	    view.getTxtFName().requestFocusInWindow();
+	}
     }
 
-    public void btnSavePressed() {
-	if (!Pattern.matches(GregorianCalendarExtended.DATE_FORMAT, view
-		.getTxtBirthday().getText())) {
-	    view.showDateIncorrectFormatMessage();
-	    return;
+    public int saveContact() {
+	String birthdayText = view.getTxtBirthday().getText();
+
+	if (!Pattern.matches(GregorianCalendarExtended.DATE_FORMAT,
+		birthdayText) && !birthdayText.isEmpty()) {
+	    Messages.showDateIncorrectFormatMessage(view.getMainFrame());
+	    view.getTxtBirthday().requestFocusInWindow();
+	    view.getTxtBirthday().selectAll();
+	    return -1;
 	}
 
 	Contact contact = cs.getContacts().get(contactIndex);
@@ -102,36 +176,80 @@ public class Controller {
 	contact.getAddress().setZip(view.getTxtZip().getText());
 	contact.setEmail(view.getTxtEmail().getText());
 	contact.getPhone().setPhoneNumber(view.getTxtPhone().getText());
-	contact.setBirthday(new GregorianCalendarExtended(view.getTxtBirthday()
-		.getText()));
+
+	if (!birthdayText.isEmpty()) {
+	    contact.setBirthday(new GregorianCalendarExtended(birthdayText));
+	}
+
 	contact.setNotes(view.getNotesText().getText());
 
 	cs.writeContactsToFile();
+	
+	Collections.sort(cs.getContacts());
+
+	return 0;
     }
 
     public void btnLastPressed() {
-	if (contactIndex != cs.getContacts().size() - 1) {
-	    contactIndex = cs.getContacts().size() - 1;
-	    Contact contact = cs.getContacts().get(contactIndex);
-	    view.updateViewWithContact(contact);
-	}
+	if (saveContact() == 0) {
+	    if (contactIndex != cs.getContacts().size() - 1) {
+		contactIndex = cs.getContacts().size() - 1;
+		Contact contact = cs.getContacts().get(contactIndex);
+		view.updateViewWithContact(contact);
 
+		bDayCheck(contact);
+	    }
+	}
     }
 
     public void btnNextPressed() {
-	if (contactIndex < cs.getContacts().size() - 1) {
-	    contactIndex++;
-	    Contact contact = cs.getContacts().get(contactIndex);
-	    view.updateViewWithContact(contact);
+	if (saveContact() == 0) {
+	    if (contactIndex < cs.getContacts().size() - 1) {
+		contactIndex++;
+		Contact contact = cs.getContacts().get(contactIndex);
+		view.updateViewWithContact(contact);
+
+		bDayCheck(contact);
+	    }
 	}
     }
 
     public void btnPreviousPressed() {
-	if (contactIndex > 0) {
-	    contactIndex--;
-	    Contact contact = cs.getContacts().get(contactIndex);
-	    view.updateViewWithContact(contact);
+	if (saveContact() == 0) {
+	    if (contactIndex > 0) {
+		contactIndex--;
+		Contact contact = cs.getContacts().get(contactIndex);
+		view.updateViewWithContact(contact);
+
+		bDayCheck(contact);
+	    }
 	}
     }
+
+    // public static void main(String[] args) {
+    // ContactService cs = new ContactService();
+    // Random rnd = new Random();
+    //
+    // for (int i = 0; i <= 1000; i++){
+    // cs.getContacts().add(new Contact());
+    //
+    // Contact c = cs.getContacts().get(i);
+    //
+    // c.setFName(Integer.toString(i));
+    // c.setLName(Integer.toString(rnd.nextInt(1000000) + 100000));
+    // c.getAddress().setCity(Integer.toString(rnd.nextInt(1000000) + 100000));
+    // c.getAddress().setState(States.NY);
+    // c.getAddress().setStreet(Integer.toString(rnd.nextInt(1000000) + 100000)
+    // + " Buck Road");
+    // c.getAddress().setZip(Integer.toString(rnd.nextInt(1000000) + 100000));
+    // c.setBirthday(new GregorianCalendarExtended("12/30/1982"));
+    // c.setEmail(Integer.toString(rnd.nextInt(1000000) + 100000));
+    // c.setNotes(Integer.toString(rnd.nextInt(1000000) + 100000));
+    // c.setPhone(new PhoneNumber(Integer.toString(rnd.nextInt(1000000) +
+    // 100000)));
+    // }
+    //
+    // cs.writeContactsToFile();
+    // }
 
 }

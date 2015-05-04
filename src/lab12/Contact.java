@@ -11,7 +11,7 @@ public class Contact implements Serializable, Comparable<Contact>{
     private PhoneNumber phone = new PhoneNumber("");
     private String notes = "";
     private Address address = new Address();
-    private GregorianCalendarExtended birthday = new GregorianCalendarExtended();
+    private GregorianCalendarExtended birthday;    
     
     public String toString() {
 	StringBuilder sb = new StringBuilder();

@@ -9,7 +9,7 @@ public class GregorianCalendarExtended extends GregorianCalendar {
     public final static String DATE_FORMAT = "(\\d{2}/\\d{2}/\\d{4})";
 
     public GregorianCalendarExtended() {
-
+	super();
     }
 
     public GregorianCalendarExtended(String string) {
@@ -21,12 +21,36 @@ public class GregorianCalendarExtended extends GregorianCalendar {
     public String toString() {
 	StringBuilder sb = new StringBuilder();
 
+	if (this.get(Calendar.MONTH) + 1 <= 9) {
+	    sb.append("0");
+	}
+
 	sb.append(this.get(Calendar.MONTH) + 1);
 	sb.append("/");
+
+	if (this.get(Calendar.DATE) <= 9) {
+	    sb.append("0");
+	}
+
 	sb.append(this.get(Calendar.DATE));
 	sb.append("/");
 	sb.append(this.get(Calendar.YEAR));
 
 	return sb.toString();
+    }
+
+    public boolean equals(Object other) {
+	if (other == null) {
+	    return false;
+	} // end of if ()
+	else if (this.getClass() != other.getClass()) {
+	    return false;
+	} // end of if ()
+	else {
+	    GregorianCalendarExtended gce = (GregorianCalendarExtended) other;
+	    return (this.get(Calendar.MONTH) == gce.get(Calendar.MONTH)
+		    && this.get(Calendar.DATE) == gce.get(Calendar.DATE) && this
+			.get(Calendar.YEAR) == gce.get(Calendar.YEAR));
+	} // end of else
     }
 }

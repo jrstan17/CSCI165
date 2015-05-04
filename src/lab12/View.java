@@ -1,15 +1,14 @@
 package lab12;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -18,6 +17,8 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class View extends JFrame {
+
+    private JFrame mainFrame;
 
     // define GUI elements
     // NORTH AREA
@@ -30,7 +31,6 @@ public class View extends JFrame {
 
     // SOUTH AREA
     private JPanel south = new JPanel();
-    private JButton btnSave = new JButton("SAVE");
     private JButton btnAdd = new JButton("ADD");
     private JButton btnDelete = new JButton("DELETE");
     private JButton btnFind = new JButton("FIND");
@@ -54,7 +54,9 @@ public class View extends JFrame {
     public View() {
 
 	// get reference to JFrame content pane
-	Container c = getContentPane();
+	mainFrame = new JFrame();
+	mainFrame.setSize(400, 400);
+	mainFrame.setLayout(new BorderLayout());
 
 	// add buttons to NORTH panel
 	north.add(btnFirst);
@@ -63,16 +65,15 @@ public class View extends JFrame {
 	north.add(btnLast);
 
 	// add NORTH panel to JFrame via the ContentPane
-	c.add(north, BorderLayout.NORTH);
+	mainFrame.add(north, BorderLayout.NORTH);
 
 	// add buttons to SOUTH panel
-	south.add(btnSave);
 	south.add(btnAdd);
 	south.add(btnDelete);
 	south.add(btnFind);
 
 	// add SOUTH panel to JFrame via the ContentPane
-	c.add(south, BorderLayout.SOUTH);
+	mainFrame.add(south, BorderLayout.SOUTH);
 
 	// add text fields and labels to JPanel
 	form.add(new JLabel("First Name"));
@@ -105,26 +106,30 @@ public class View extends JFrame {
 	jsp.getViewport().add(notes);
 	center.add(jsp);
 	notesText.setLineWrap(true);
-	c.add(center);
+	mainFrame.add(center);
 
 	// give tabs some descriptive text
 	center.setTitleAt(0, "Contact Info");
 	center.setTitleAt(1, "Notes");
 
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	mainFrame.setLocationRelativeTo(null);
+	mainFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	pack();
     }
 
-    public void addListener(ActionListener al) {
+    public void addActionListener(ActionListener al) {
 
 	btnFirst.addActionListener(al);
 	btnPrevious.addActionListener(al);
 	btnNext.addActionListener(al);
 	btnLast.addActionListener(al);
-	btnSave.addActionListener(al);
 	btnAdd.addActionListener(al);
 	btnDelete.addActionListener(al);
 	btnFind.addActionListener(al);
+    }
+
+    public void addWindowListener(WindowAdapter wa) {
+	mainFrame.addWindowListener(wa);
     }
 
     public void updateViewWithContact(Contact contact) {
@@ -136,11 +141,17 @@ public class View extends JFrame {
 	txtZip.setText(contact.getAddress().getZip());
 	txtEmail.setText(contact.getEmail());
 	txtPhone.setText(contact.getPhone().getPhoneNumber());
-	txtBirthday.setText(contact.getBirthday().toString());
+
+	if (contact.getBirthday() != null) {
+	    txtBirthday.setText(contact.getBirthday().toString());
+	} else {
+	    txtBirthday.setText("");
+	}
+
 	notesText.setText(contact.getNotes());
 
 	if (!txtFName.getText().isEmpty() || !txtLName.getText().isEmpty()) {
-	    setTitle(contact.getLName() + ", " + contact.getFName());
+	    mainFrame.setTitle(contact.getLName() + ", " + contact.getFName());
 	}
     }
 
@@ -154,19 +165,7 @@ public class View extends JFrame {
 	getTxtEmail().setText("");
 	getTxtPhone().setText("");
 	getTxtBirthday().setText("");
-	setTitle("Contacts");
-    }
-
-    public void showDateIncorrectFormatMessage() {
-	JOptionPane.showMessageDialog(this,
-		"The birthdate is not in the correct format.\nMM/DD/YYYY.",
-		"Incorrect Date Format", JOptionPane.ERROR_MESSAGE);
-    }
-
-    public void showMustHaveOneMessage() {
-	JOptionPane.showMessageDialog(this,
-		"You must have at least one contact. Cannot delete.",
-		"Cannot Delete Contact", JOptionPane.WARNING_MESSAGE);
+	mainFrame.setTitle("Contacts");
     }
 
     public JButton getBtnFirst() {
@@ -183,10 +182,6 @@ public class View extends JFrame {
 
     public JButton getBtnLast() {
 	return btnLast;
-    }
-
-    public JButton getBtnSave() {
-	return btnSave;
     }
 
     public JButton getBtnAdd() {
@@ -279,5 +274,9 @@ public class View extends JFrame {
 
     public void setCmbState(JComboBox<String> cmbState) {
 	this.cmbState = cmbState;
+    }
+
+    public JFrame getMainFrame() {
+	return mainFrame;
     }
 }

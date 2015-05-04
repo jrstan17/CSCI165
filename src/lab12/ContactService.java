@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ContactService {
 
@@ -16,6 +17,7 @@ public class ContactService {
     
     public ContactService(){
 	readContactsFromFile();
+	Collections.sort(contacts);
     }
 
     public void writeContactsToFile() {
