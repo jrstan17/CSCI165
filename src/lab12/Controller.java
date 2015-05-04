@@ -12,7 +12,6 @@ public class Controller {
 
     // create views
     private View view = new View();
-    private FindView fv;
 
     // create services
     private ContactService cs = new ContactService();
@@ -108,8 +107,7 @@ public class Controller {
     }
 
     public void btnFindPressed() {
-	view.getMainFrame().setEnabled(false);
-	fv = new FindView(view.getMainFrame());
+	SearchWindow searchWindow = new SearchWindow();
     }
 
     public void btnDeletePressed() {
