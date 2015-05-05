@@ -21,6 +21,12 @@ public class Messages {
 		"You must have at least one contact. Cannot delete.",
 		"Cannot Delete Contact", JOptionPane.WARNING_MESSAGE);
     }
+    
+    public static void showSearchNotFoundMessage(JFrame frame) {
+	JOptionPane.showMessageDialog(frame,
+		"No results found.",
+		"Information", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     public static void showBDayMessage(JFrame frame, String firstName) {
 	JOptionPane.showMessageDialog(frame, "Happy Birthday, " + firstName

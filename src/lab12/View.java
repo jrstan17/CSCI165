@@ -158,6 +158,19 @@ public class View extends JFrame {
 	if (!txtFName.getText().isEmpty() || !txtLName.getText().isEmpty()) {
 	    mainFrame.setTitle(contact.getLName() + ", " + contact.getFName());
 	}
+	
+	if (current == total){
+	    toggleFirstAndPrevButtons(true);
+	    toggleLastAndNextButtons(false);
+	}
+	else if (current == 1){
+	    toggleFirstAndPrevButtons(false);
+	    toggleLastAndNextButtons(true);	    
+	}
+	else{
+	    toggleFirstAndPrevButtons(true);
+	    toggleLastAndNextButtons(true);
+	}
     }
 
     public void clearFields() {
