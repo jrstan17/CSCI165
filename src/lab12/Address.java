@@ -65,6 +65,7 @@ public class Address implements Cloneable, Serializable {
     }
 
     public void setStreet(String street) {
+	street.equals(StringUtilities.toProperNoun(street));
 	this.street = street;
     }
 
@@ -73,6 +74,7 @@ public class Address implements Cloneable, Serializable {
     }
 
     public void setCity(String city) {
+	city.equals(StringUtilities.toProperNoun(city));
 	this.city = city;
     }
 

@@ -162,24 +162,35 @@ public class Controller {
 	    return -1;
 	}
 	if (view.getTxtLName().getText().isEmpty()) {
+
 	    Messages.showLNameMissingMessage(view.getMainFrame());
 	    view.getTxtLName().requestFocusInWindow();
+
 	    return -1;
 	}
+
 	Contact contact = cs.getContacts().get(contactIndex);
-	contact.setFName(view.getTxtFName().getText());
-	contact.setLName(view.getTxtLName().getText());
-	contact.getAddress().setStreet(view.getTxtStreet().getText());
-	contact.getAddress().setCity(view.getTxtCity().getText());
+
+	contact.setFName(view.getTxtFName()
+		.getText());
+	contact.setLName(view.getTxtLName()
+		.getText());
+	contact.getAddress().setStreet(
+		view.getTxtStreet().getText());
+	contact.getAddress().setCity(
+		view.getTxtCity().getText());
 	contact.getAddress().setState(
 		(String) view.getCmbState().getSelectedItem());
 	contact.getAddress().setZip(view.getTxtZip().getText());
 	contact.setEmail(view.getTxtEmail().getText());
 	contact.getPhone().setPhoneNumber(view.getTxtPhone().getText());
+
 	if (!birthdayText.isEmpty()) {
 	    contact.setBirthday(new GregorianCalendarExtended(birthdayText));
 	}
+
 	contact.setNotes(view.getNotesText().getText());
+
 	cs.writeContactsToFile();
 	Collections.sort(cs.getContacts());
 	return 0;

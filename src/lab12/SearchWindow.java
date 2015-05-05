@@ -22,7 +22,7 @@ public class SearchWindow {
     private JRadioButton rbtnState = new JRadioButton("State");
     private JRadioButton rbtnEmail = new JRadioButton("Email");
     private JRadioButton rbtnPhone = new JRadioButton("Phone");
-    private JRadioButton rbtnBirthday = new JRadioButton("Birthday");
+    private JRadioButton rbtnBirthday = new JRadioButton("Birthday MM/DD/YYYY");
 
     private Object[] returnValues = new Object[NUMBER_OF_VALUES];
 

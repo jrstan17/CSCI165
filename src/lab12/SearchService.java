@@ -21,25 +21,25 @@ public class SearchService {
 
 	if (selectedRadioBtnName.equals("Last Name")) {
 	    for (Contact contact : contacts) {
-		if (contact.getLName().equals(searchText)) {
+		if (contact.getLName().equals(StringUtilities.toProperNoun(searchText))) {
 		    contactIndex = contacts.indexOf(contact);
 		}
 	    }
 	} else if (selectedRadioBtnName.equals("First Name")) {
 	    for (Contact contact : contacts) {
-		if (contact.getFName().equals(searchText)) {
+		if (contact.getFName().equals(StringUtilities.toProperNoun(searchText))) {
 		    contactIndex = contacts.indexOf(contact);
 		}
 	    }
 	} else if (selectedRadioBtnName.equals("Street Address")) {
 	    for (Contact contact : contacts) {
-		if (contact.getAddress().getStreet().equals(searchText)) {
+		if (contact.getAddress().getStreet().equals(StringUtilities.toProperNoun(searchText))) {
 		    contactIndex = contacts.indexOf(contact);
 		}
 	    }
 	} else if (selectedRadioBtnName.equals("City")) {
 	    for (Contact contact : contacts) {
-		if (contact.getAddress().getCity().equals(searchText)) {
+		if (contact.getAddress().getCity().equals(StringUtilities.toProperNoun(searchText))) {
 		    contactIndex = contacts.indexOf(contact);
 		}
 	    }
@@ -67,7 +67,7 @@ public class SearchService {
 		    contactIndex = contacts.indexOf(contact);
 		}
 	    }
-	} else if (selectedRadioBtnName.equals("Birthday")) {
+	} else if (selectedRadioBtnName.equals("Birthday MM/DD/YYYY")) {
 	    for (Contact contact : contacts) {
 		if (contact.getBirthday() != null) {
 		    if (contact.getBirthday().toString().equals(searchText)) {

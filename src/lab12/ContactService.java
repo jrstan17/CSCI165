@@ -14,8 +14,8 @@ public class ContactService {
 
     private static final String DATA_FILE_LOCATION = "src\\lab12\\data.txt";
     private ArrayList<Contact> contacts = new ArrayList<Contact>();
-    
-    public ContactService(){
+
+    public ContactService() {
 	readContactsFromFile();
 	Collections.sort(contacts);
     }
@@ -24,21 +24,20 @@ public class ContactService {
 	try {
 	    FileOutputStream fos = new FileOutputStream(DATA_FILE_LOCATION);
 	    ObjectOutputStream oos = new ObjectOutputStream(fos);
-	    
+
 	    Integer size = contacts.size();
 	    oos.writeObject(size);
 
 	    for (Contact contact : contacts) {
 		oos.writeObject(contact);
 	    }
-	    
+
 	    oos.close();
-	    
-	    FileWriter fw = new FileWriter(DATA_FILE_LOCATION,true);
+
+	    FileWriter fw = new FileWriter(DATA_FILE_LOCATION, true);
 	    fw.write("add a line\n");
 	    fw.close();
 
-	    
 	} catch (FileNotFoundException e) {
 	    e.printStackTrace();
 	} catch (IOException e) {
@@ -53,13 +52,13 @@ public class ContactService {
 	    ObjectInputStream ois = new ObjectInputStream(fis);
 
 	    contacts = new ArrayList<Contact>();
-	    
-	    Integer numberOfContacts = (Integer)ois.readObject();
 
-	    for(int i = 0; i < numberOfContacts; i++){
+	    Integer numberOfContacts = (Integer) ois.readObject();
+
+	    for (int i = 0; i < numberOfContacts; i++) {
 		contacts.add((Contact) ois.readObject());
 	    }
-	    
+
 	    ois.close();
 
 	} catch (FileNotFoundException e) {
@@ -73,6 +72,6 @@ public class ContactService {
     }
 
     public ArrayList<Contact> getContacts() {
-        return contacts;
+	return contacts;
     }
 }

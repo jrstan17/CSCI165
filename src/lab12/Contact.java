@@ -49,6 +49,7 @@ public class Contact implements Serializable, Comparable<Contact>{
     }
 
     public void setFName(String fName) {
+	fName.equals(StringUtilities.toProperNoun(fName));
 	this.fName = fName;
     }
 
@@ -57,6 +58,7 @@ public class Contact implements Serializable, Comparable<Contact>{
     }
 
     public void setLName(String lName) {
+	lName.equals(StringUtilities.toProperNoun(lName));
 	this.lName = lName;
     }
 
