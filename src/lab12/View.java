@@ -24,8 +24,8 @@ public class View extends JFrame {
   private static final int TEXT_FIELDS = 9;
   private static final int FORM_COLUMNS = 2;
   private static final int GAP = 5;
-  private static final int TEXT_AREA_ROWS = 10;
-  private static final int TEXT_AREA_COLUMNS = 30;
+  private static final int TEXT_AREA_ROWS = 16;
+  private static final int TEXT_AREA_COLUMNS = 33;
   private static final int FRAME_WIDTH = 400;
   private static final int FRAME_HEIGHT = 400;
   private static final int RIGID_AREA_WIDTH = 20;
@@ -125,7 +125,7 @@ public class View extends JFrame {
 
     // add FORM to Tabbed area
     center.add(form);
-    notes.add(notesText);
+    notes.add(BorderLayout.CENTER, notesText);
     jsp.getViewport().add(notes);
     center.add(jsp);
     notesText.setLineWrap(true);
@@ -157,7 +157,10 @@ public class View extends JFrame {
 
   public final void updateViewWithContact(final Contact contact,
       final int current, final int total) {
+    
     lblCurrentContact.setText("Entry " + current + " of " + total);
+    lblCurrentContact.setVisible(true);
+    
     txtFName.setText(contact.getFName());
     txtLName.setText(contact.getLName());
     txtStreet.setText(contact.getAddress().getStreet());
@@ -169,7 +172,8 @@ public class View extends JFrame {
 
     if (contact.getBirthday() != null) {
       txtBirthday.setText(contact.getBirthday().toString());
-    } else {
+    }
+    else {
       txtBirthday.setText("");
     }
 
@@ -182,10 +186,12 @@ public class View extends JFrame {
     if (current == total) {
       toggleFirstAndPrevButtons(true);
       toggleLastAndNextButtons(false);
-    } else if (current == 1) {
+    }
+    else if (current == 1) {
       toggleFirstAndPrevButtons(false);
       toggleLastAndNextButtons(true);
-    } else {
+    }
+    else {
       toggleFirstAndPrevButtons(true);
       toggleLastAndNextButtons(true);
     }
@@ -205,14 +211,15 @@ public class View extends JFrame {
   }
 
   public final void clearEntryLabel() {
-    lblCurrentContact.setText("");
+    lblCurrentContact.setVisible(false);
   }
 
   public final void toggleFirstAndPrevButtons(final boolean enabled) {
     if (enabled) {
       btnFirst.setEnabled(true);
       btnPrevious.setEnabled(true);
-    } else {
+    }
+    else {
       btnFirst.setEnabled(false);
       btnPrevious.setEnabled(false);
     }
@@ -222,7 +229,8 @@ public class View extends JFrame {
     if (enabled) {
       btnLast.setEnabled(true);
       btnNext.setEnabled(true);
-    } else {
+    }
+    else {
       btnLast.setEnabled(false);
       btnNext.setEnabled(false);
     }
