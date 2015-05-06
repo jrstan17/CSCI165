@@ -33,11 +33,11 @@ public class Circle {
 	}
     }
 
-    public double area() {
+    public final double area() {
 	return Math.PI * radius * radius;
     }
 
-    public void resize(int radius) {
+    public final void resize(final int radius) {
 	setRadius(radius);
     }
 
