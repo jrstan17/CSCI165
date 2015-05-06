@@ -3,6 +3,8 @@ package lab12;
 import java.io.Serializable;
 
 public class Address implements Cloneable, Serializable {
+
+    private static final long serialVersionUID = -6055649143312376189L;
     private String street = "";
     private String city = "";
     private States state = States.NA;
@@ -14,6 +16,7 @@ public class Address implements Cloneable, Serializable {
 
     public Address(Address originalObject) {
 	if (originalObject == null) {
+
 	    System.out.println("Error: null Address object.");
 	    System.exit(0);
 	}
@@ -40,7 +43,7 @@ public class Address implements Cloneable, Serializable {
 	} // end of else
     }
 
-    public Object clone() throws CloneNotSupportedException{
+    public Object clone() throws CloneNotSupportedException {
 	return super.clone();
     }
 
@@ -85,10 +88,10 @@ public class Address implements Cloneable, Serializable {
     public void setState(States state) {
 	this.state = state;
     }
-    
-    public void setState(String state){
-	for (States s : States.values()){
-	    if (state.equals(s.displayName())){
+
+    public void setState(String state) {
+	for (States s : States.values()) {
+	    if (state.equals(s.displayName())) {
 		this.state = s;
 	    }
 	}
