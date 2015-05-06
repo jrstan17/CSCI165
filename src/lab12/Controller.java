@@ -164,6 +164,7 @@ public class Controller {
     int savedResult = saveContact();
 
     if (savedResult == ReturnCode.SUCCESSFUL) {
+      view.clearEntryLabel();
       view.toggleFirstAndPrevButtons(true);
       view.toggleLastAndNextButtons(false);
       view.clearFields();
