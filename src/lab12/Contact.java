@@ -2,7 +2,7 @@ package lab12;
 
 import java.io.Serializable;
 
-public class Contact implements Serializable, Comparable<Contact>{
+public class Contact implements Serializable, Comparable<Contact> {
 
     private static final long serialVersionUID = 5147644076822841959L;
     private String fName = "";
@@ -13,11 +13,11 @@ public class Contact implements Serializable, Comparable<Contact>{
     private Address address = new Address();
     private GregorianCalendarExtended birthday;    
     
-    public Contact(){
+    public Contact() {
 	System.out.println();
     }
     
-    public String toString() {
+    public final String toString() {
 	StringBuilder sb = new StringBuilder();
 
 	sb.append("Name: ");
@@ -39,65 +39,63 @@ public class Contact implements Serializable, Comparable<Contact>{
     }
     
     @Override
-    public int compareTo(Contact o) {
+    public final int compareTo(final Contact o) {
 	return this.lName.compareTo(o.lName);
     }
 
-    public String getFName() {
+    public final String getFName() {
 	return fName;
     }
 
-    public void setFName(String fName) {
-	fName.equals(StringUtilities.toProperNoun(fName));
-	this.fName = fName;
+    public final void setFName(final String fName) {
+	this.fName = StringUtilities.toProperNoun(fName);
     }
 
-    public String getLName() {
+    public final String getLName() {
 	return lName;
     }
 
-    public void setLName(String lName) {
-	lName = (StringUtilities.toProperNoun(lName));
-	this.lName = lName;
+    public final void setLName(final String lName) {
+	this.lName = StringUtilities.toProperNoun(lName);
     }
 
-    public PhoneNumber getPhone() {
+    public final PhoneNumber getPhone() {
 	return phone;
     }
 
-    public void setPhone(PhoneNumber phone) {
+    public final void setPhone(final PhoneNumber phone) {
 	this.phone = phone;
     }
 
-    public Address getAddress() {
+    public final Address getAddress() {
 	return address;
     }
 
-    public void setAddress(Address address) {
+    public final void setAddress(final Address address) {
 	this.address = address;
     }
 
-    public GregorianCalendarExtended getBirthday() {
+    public final GregorianCalendarExtended getBirthday() {
 	return birthday;
     }
     
-    public void setBirthday(GregorianCalendarExtended birthday) {
+    public final void setBirthday(final GregorianCalendarExtended birthday) {
 	this.birthday = birthday;
     }
 
-    public String getEmail() {
+    public final String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public final void setEmail(final String email) {
         this.email = email;
     }
 
-    public String getNotes() {
+    public final String getNotes() {
         return notes;
     }
 
-    public void setNotes(String notes) {
+    public final void setNotes(final String notes) {
         this.notes = notes;
     }
 }

@@ -14,7 +14,7 @@ public class Address implements Cloneable, Serializable {
 
   }
 
-  public Address(Address originalObject) {
+  public Address(final Address originalObject) {
     if (originalObject == null) {
 
       System.out.println("Error: null Address object.");
@@ -27,7 +27,7 @@ public class Address implements Cloneable, Serializable {
     zip = originalObject.zip;
   }
 
-  public boolean equals(Object other) {
+  public final boolean equals(final Object other) {
     if (other == null) {
       return false;
     } // end of if ()
@@ -37,16 +37,16 @@ public class Address implements Cloneable, Serializable {
     else {
       Address address = (Address) other;
       return (this.street.equals(address.street)
-          && this.city.equals(address.city) && this.state.equals(address.state) && this.zip
-            .equals(address.zip));
+          && this.city.equals(address.city)
+          && this.state.equals(address.state) && this.zip.equals(address.zip));
     } // end of else
   }
 
-  public Object clone() throws CloneNotSupportedException {
+  public final Object clone() throws CloneNotSupportedException {
     return super.clone();
   }
 
-  public String toString() {
+  public final String toString() {
     StringBuilder sb = new StringBuilder();
 
     sb.append("Address: ");
@@ -62,33 +62,31 @@ public class Address implements Cloneable, Serializable {
     return sb.toString();
   }
 
-  public String getStreet() {
+  public final String getStreet() {
     return street;
   }
 
-  public void setStreet(String street) {
-    street = (StringUtilities.toProperNoun(street));
-    this.street = street;
+  public final void setStreet(final String street) {
+    this.street = (StringUtilities.toProperNoun(street));
   }
 
-  public String getCity() {
+  public final String getCity() {
     return city;
   }
 
-  public void setCity(String city) {
-    city = (StringUtilities.toProperNoun(city));
-    this.city = city;
+  public final void setCity(final String city) {
+    this.city = (StringUtilities.toProperNoun(city));
   }
 
-  public States getState() {
+  public final States getState() {
     return state;
   }
 
-  public void setState(States state) {
+  public final void setState(final States state) {
     this.state = state;
   }
 
-  public void setState(String state) {
+  public final void setState(final String state) {
     for (States s : States.values()) {
       if (state.equals(s.displayName())) {
         this.state = s;
@@ -96,11 +94,11 @@ public class Address implements Cloneable, Serializable {
     }
   }
 
-  public String getZip() {
+  public final String getZip() {
     return zip;
   }
 
-  public void setZip(String zip) {
+  public final void setZip(final String zip) {
     this.zip = zip;
   }
 

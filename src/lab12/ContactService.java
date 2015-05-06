@@ -12,66 +12,71 @@ import java.util.Collections;
 
 public class ContactService {
 
-    private static final String DATA_FILE_LOCATION = "src\\lab12\\data.txt";
-    private ArrayList<Contact> contacts = new ArrayList<Contact>();
+  private static final String DATA_FILE_LOCATION = "src\\lab12\\data.txt";
+  private ArrayList<Contact> contacts = new ArrayList<Contact>();
 
-    public ContactService() {
-	readContactsFromFile();
-	Collections.sort(contacts);
-    }
+  public ContactService() {
+    readContactsFromFile();
+    Collections.sort(contacts);
+  }
 
-    public void writeContactsToFile() {
-	try {
-	    FileOutputStream fos = new FileOutputStream(DATA_FILE_LOCATION);
-	    ObjectOutputStream oos = new ObjectOutputStream(fos);
+  public final void writeContactsToFile() {
+    try {
+      FileOutputStream fos = new FileOutputStream(DATA_FILE_LOCATION);
+      ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-	    Integer size = contacts.size();
-	    oos.writeObject(size);
+      Integer size = contacts.size();
+      oos.writeObject(size);
 
-	    for (Contact contact : contacts) {
-		oos.writeObject(contact);
-	    }
+      for (Contact contact : contacts) {
+        oos.writeObject(contact);
+      }
 
-	    oos.close();
+      oos.close();
 
-	    FileWriter fw = new FileWriter(DATA_FILE_LOCATION, true);
-	    fw.write("add a line\n");
-	    fw.close();
-
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-    }
-
-    public void readContactsFromFile() {
-
-	try {
-	    FileInputStream fis = new FileInputStream(DATA_FILE_LOCATION);
-	    ObjectInputStream ois = new ObjectInputStream(fis);
-
-	    contacts = new ArrayList<Contact>();
-
-	    Integer numberOfContacts = (Integer) ois.readObject();
-
-	    for (int i = 0; i < numberOfContacts; i++) {
-		contacts.add((Contact) ois.readObject());
-	    }
-
-	    ois.close();
-
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    contacts.add(new Contact());
-	} catch (ClassNotFoundException e) {
-	    e.printStackTrace();
-	}
+      FileWriter fw = new FileWriter(DATA_FILE_LOCATION, true);
+      fw.write("add a line\n");
+      fw.close();
 
     }
-
-    public ArrayList<Contact> getContacts() {
-	return contacts;
+    catch (FileNotFoundException e) {
+      e.printStackTrace();
     }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public final void readContactsFromFile() {
+
+    try {
+      FileInputStream fis = new FileInputStream(DATA_FILE_LOCATION);
+      ObjectInputStream ois = new ObjectInputStream(fis);
+
+      contacts = new ArrayList<Contact>();
+
+      Integer numberOfContacts = (Integer) ois.readObject();
+
+      for (int i = 0; i < numberOfContacts; i++) {
+        contacts.add((Contact) ois.readObject());
+      }
+
+      ois.close();
+
+    }
+    catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    catch (IOException e) {
+      contacts.add(new Contact());
+    }
+    catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  public final ArrayList<Contact> getContacts() {
+    return contacts;
+  }
 }

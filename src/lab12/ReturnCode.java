@@ -1,6 +1,11 @@
 package lab12;
 
-public class ReturnCode {
+public final class ReturnCode {
+  
+  private ReturnCode(){
+    
+  }
+  
   public static final int FOUND = 0;
   public static final int NOT_FOUND = -1;
   

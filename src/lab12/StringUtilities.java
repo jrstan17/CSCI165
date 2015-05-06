@@ -1,22 +1,29 @@
 package lab12;
 
-public class StringUtilities {
+public final class StringUtilities {
 
-  public static String toProperNoun(String str) {
+  private StringUtilities() {
+
+  }
+
+  public static String toProperNoun(final String str) {
     String stringToReturn = "";
 
     if (str != null && !str.isEmpty()) {
 
       stringToReturn = str.substring(0, 1).toUpperCase();
 
-      for (int i = 1; i < str.length(); i++) {
+      int i = 1;
+      while (i < str.length()) {
         if (str.charAt(i) == ' ') {
-          stringToReturn = stringToReturn + " "
-              + str.substring(i + 1, i + 2).toUpperCase();
           i++;
-        } else {
+          stringToReturn =
+              stringToReturn + " " + str.substring(i, i + 1).toUpperCase();
+        }
+        else {
           stringToReturn = stringToReturn + str.charAt(i);
         }
+        i++;
       }
     }
 

@@ -3,73 +3,75 @@ package lab12;
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
-public class PhoneNumber implements Serializable{
-    private static final long serialVersionUID = 7335515713086090633L;
-    private static final int NUMBER_LENGTH_WO_INTERNATIONAL = 10;
-    private static final int NUMBER_LENGTH_W_INTERNATIONAL = 11;
+public class PhoneNumber implements Serializable {
+  private static final long serialVersionUID = 7335515713086090633L;
+  private static final int NUMBER_LENGTH_WO_INTERNATIONAL = 10;
+  private static final int NUMBER_LENGTH_W_INTERNATIONAL = 11;
 
-    private String phoneNumber;
+  private String phoneNumber;
 
-    public PhoneNumber(String phoneNumber) {
-	this.phoneNumber = phoneNumber;
-	parseNumber();
-    }
+  public PhoneNumber(final String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+    parseNumber();
+  }
+
+  public final String toString() {
+    StringBuilder sb = new StringBuilder();
+
+    sb.append("Phone Number: ");
+    sb.append(phoneNumber);
+    sb.append("\n");
+
+    return sb.toString();
+  }
+
+  private void parseNumber() {
+    phoneNumber = removeNonDigits(phoneNumber);
+    formatNumber();
+  }
+
+  private void formatNumber() {
+    StringBuilder sb = new StringBuilder(phoneNumber);
     
-    public String toString() {
-	StringBuilder sb = new StringBuilder();
-
-	sb.append("Phone Number: ");
-	sb.append(phoneNumber);
-	sb.append("\n");
-
-	return sb.toString();
+    if (sb.length() == NUMBER_LENGTH_WO_INTERNATIONAL) {
+      sb.insert(0, '(');
+      sb.insert(4, ')');
+      sb.insert(5, ' ');
+      sb.insert(9, '-');
+    }
+    else if (sb.length() == NUMBER_LENGTH_W_INTERNATIONAL) {
+      sb.insert(0, '+');
+      sb.insert(2, ' ');
+      sb.insert(3, '(');
+      sb.insert(7, ')');
+      sb.insert(8, ' ');
+      sb.insert(12, '-');
     }
 
-    private void parseNumber() {
-	phoneNumber = removeNonDigits(phoneNumber);
-	formatNumber();
-    }
-    
-    private void formatNumber(){
-	StringBuilder sb = new StringBuilder(phoneNumber);
-	
-	if (sb.length() == NUMBER_LENGTH_WO_INTERNATIONAL){
-	    sb.insert(0, '(');
-	    sb.insert(4, ')');
-	    sb.insert(5, ' ');
-	    sb.insert(9, '-');
-	}
-	else if (sb.length() == NUMBER_LENGTH_W_INTERNATIONAL){
-	    sb.insert(0, '+');
-	    sb.insert(2, ' ');
-	    sb.insert(3, '(');
-	    sb.insert(7, ')');
-	    sb.insert(8, ' ');
-	    sb.insert(12, '-');
-	}
-	
-	phoneNumber = sb.toString();
+    phoneNumber = sb.toString();
+  }
+
+  private String removeNonDigits(final String string) {
+    StringBuilder sb = new StringBuilder(string);
+
+    int i = 0;
+    while (i < sb.length()) {
+      if (Pattern.matches("\\D", sb.substring(i, i + 1))) {
+        sb.deleteCharAt(i);
+        i--;
+      }
+      i++;
     }
 
-    private String removeNonDigits(String string) {
-	StringBuilder sb = new StringBuilder(string);
+    return sb.toString();
+  }
 
-	for (int i = 0; i < sb.length(); i++) {
-	    if (Pattern.matches("\\D", sb.substring(i, i + 1))) {
-		sb.deleteCharAt(i);
-		i--;
-	    }
-	}
+  public final String getPhoneNumber() {
+    return phoneNumber;
+  }
 
-	return sb.toString();
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-	this.phoneNumber = phoneNumber;
-	parseNumber();        
-    }
+  public final void setPhoneNumber(final String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+    parseNumber();
+  }
 }

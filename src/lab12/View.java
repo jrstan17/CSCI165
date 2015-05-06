@@ -20,303 +20,327 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class View extends JFrame {
 
-    private JFrame mainFrame;
+  private static final int NAV_BUTTONS = 4;
+  private static final int TEXT_FIELDS = 9;
+  private static final int FORM_COLUMNS = 2;
+  private static final int GAP = 5;
+  private static final int TEXT_AREA_ROWS = 10;
+  private static final int TEXT_AREA_COLUMNS = 30;
+  private static final int FRAME_WIDTH = 400;
+  private static final int FRAME_HEIGHT = 400;
+  private static final int RIGID_AREA_WIDTH = 20;
+  private static final int RIGID_AREA_HEIGHT = 1;
 
-    // define GUI elements
-    // NORTH AREA
-    private JPanel north = new JPanel(new GridLayout(1, 4));
+  private JFrame mainFrame;
 
-    private JButton btnFirst = new JButton("|<<");
-    private JButton btnPrevious = new JButton("<<");
-    private JButton btnNext = new JButton(">>");
-    private JButton btnLast = new JButton(">>|");
+  // define GUI elements
+  // NORTH AREA
+  private JPanel north = new JPanel(new GridLayout(1, NAV_BUTTONS));
 
-    // SOUTH AREA
-    private JPanel south = new JPanel();
-    private JLabel lblCurrentContact = new JLabel("Entry 1 of 1");
-    private JButton btnNew = new JButton("NEW");
-    private JButton btnDelete = new JButton("DELETE");
-    private JButton btnFind = new JButton("FIND");
+  private JButton btnFirst = new JButton("|<<");
+  private JButton btnPrevious = new JButton("<<");
+  private JButton btnNext = new JButton(">>");
+  private JButton btnLast = new JButton(">>|");
 
-    // CENTER AREA
-    private JTabbedPane center = new JTabbedPane();
-    private JPanel form = new JPanel(new GridLayout(9, 2, 5, 5));
-    private JPanel notes = new JPanel();
-    private JScrollPane jsp = new JScrollPane();
-    private JTextArea notesText = new JTextArea(10, 30);
-    private JTextField txtFName = new JTextField();
-    private JTextField txtLName = new JTextField();
-    private JTextField txtStreet = new JTextField();
-    private JTextField txtCity = new JTextField();
-    private JComboBox<String> cmbState = new JComboBox<String>();
-    private JTextField txtZip = new JTextField();
-    private JTextField txtEmail = new JTextField();
-    private JTextField txtPhone = new JTextField();
-    private JTextField txtBirthday = new JTextField();
+  // SOUTH AREA
+  private JPanel south = new JPanel();
+  private JLabel lblCurrentContact = new JLabel("Entry 1 of 1");
 
-    public View() {
-	// get reference to JFrame content pane
-	mainFrame = new JFrame();
-	mainFrame.setSize(400, 400);
-	mainFrame.setLayout(new BorderLayout());
+  private JButton btnNew = new JButton("NEW");
+  private JButton btnDelete = new JButton("DELETE");
+  private JButton btnFind = new JButton("FIND");
 
-	// add buttons to NORTH panel
-	north.add(btnFirst);
-	north.add(btnPrevious);
-	north.add(btnNext);
-	north.add(btnLast);
+  // CENTER AREA
+  private JTabbedPane center = new JTabbedPane();
 
-	// add NORTH panel to JFrame via the ContentPane
-	mainFrame.add(north, BorderLayout.NORTH);
+  private JPanel form = new JPanel(new GridLayout(TEXT_FIELDS, FORM_COLUMNS,
+      GAP, GAP));
 
-	// add buttons to SOUTH panel
-	south.add(btnNew);
-	south.add(btnDelete);
-	south.add(btnFind);	
-		south.add(Box.createRigidArea(new Dimension(20,1)));
-	south.add(lblCurrentContact);
+  private JPanel notes = new JPanel();
+  private JScrollPane jsp = new JScrollPane();
 
-	// add SOUTH panel to JFrame via the ContentPane
-	mainFrame.add(south, BorderLayout.SOUTH);
+  private JTextArea notesText = new JTextArea(TEXT_AREA_ROWS,
+      TEXT_AREA_COLUMNS);
 
-	// add text fields and labels to JPanel
-	form.add(new JLabel("First Name"));
-	form.add(txtFName);
-	form.add(new JLabel("Last Name"));
-	form.add(txtLName);
-	form.add(new JLabel("Street Address"));
-	form.add(txtStreet);
-	form.add(new JLabel("City"));
-	form.add(txtCity);
-	form.add(new JLabel("State"));
-	form.add(cmbState);
-	form.add(new JLabel("Zip Code"));
-	form.add(txtZip);
-	form.add(new JLabel("Email"));
-	form.add(txtEmail);
-	form.add(new JLabel("Phone"));
-	form.add(txtPhone);
-	form.add(new JLabel("Birthday"));
-	form.add(txtBirthday);
+  private JTextField txtFName = new JTextField();
+  private JTextField txtLName = new JTextField();
+  private JTextField txtStreet = new JTextField();
+  private JTextField txtCity = new JTextField();
+  private JComboBox<String> cmbState = new JComboBox<String>();
+  private JTextField txtZip = new JTextField();
+  private JTextField txtEmail = new JTextField();
+  private JTextField txtPhone = new JTextField();
+  private JTextField txtBirthday = new JTextField();
 
-	// add state elements to combo box
-	for (int i = 0; i < States.ELEMENTS; i++) {
-	    cmbState.addItem(States.getStatesArray()[i].displayName());
-	}
+  public View() {
+    // get reference to JFrame content pane
+    mainFrame = new JFrame();
+    mainFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+    mainFrame.setLayout(new BorderLayout());
 
-	// add FORM to Tabbed area
-	center.add(form);
-	notes.add(notesText);
-	jsp.getViewport().add(notes);
-	center.add(jsp);
-	notesText.setLineWrap(true);
-	mainFrame.add(center);
+    // add buttons to NORTH panel
+    north.add(btnFirst);
+    north.add(btnPrevious);
+    north.add(btnNext);
+    north.add(btnLast);
 
-	// give tabs some descriptive text
-	center.setTitleAt(0, "Contact Info");
-	center.setTitleAt(1, "Notes");
+    // add NORTH panel to JFrame via the ContentPane
+    mainFrame.add(north, BorderLayout.NORTH);
 
-	mainFrame.setLocationRelativeTo(null);
-	mainFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-	pack();
+    // add buttons to SOUTH panel
+    south.add(btnNew);
+    south.add(btnDelete);
+    south.add(btnFind);
+    south.add(Box.createRigidArea(new Dimension(RIGID_AREA_WIDTH,
+        RIGID_AREA_HEIGHT)));
+    south.add(lblCurrentContact);
+
+    // add SOUTH panel to JFrame via the ContentPane
+    mainFrame.add(south, BorderLayout.SOUTH);
+
+    // add text fields and labels to JPanel
+    form.add(new JLabel("First Name"));
+    form.add(txtFName);
+    form.add(new JLabel("Last Name"));
+    form.add(txtLName);
+    form.add(new JLabel("Street Address"));
+    form.add(txtStreet);
+    form.add(new JLabel("City"));
+    form.add(txtCity);
+    form.add(new JLabel("State"));
+    form.add(cmbState);
+    form.add(new JLabel("Zip Code"));
+    form.add(txtZip);
+    form.add(new JLabel("Email"));
+    form.add(txtEmail);
+    form.add(new JLabel("Phone"));
+    form.add(txtPhone);
+    form.add(new JLabel("Birthday"));
+    form.add(txtBirthday);
+
+    // add state elements to combo box
+    for (int i = 0; i < States.ELEMENTS; i++) {
+      cmbState.addItem(States.getStatesArray()[i].displayName());
     }
 
-    public void addActionListener(ActionListener al) {
+    // add FORM to Tabbed area
+    center.add(form);
+    notes.add(notesText);
+    jsp.getViewport().add(notes);
+    center.add(jsp);
+    notesText.setLineWrap(true);
+    mainFrame.add(center);
 
-	btnFirst.addActionListener(al);
-	btnPrevious.addActionListener(al);
-	btnNext.addActionListener(al);
-	btnLast.addActionListener(al);
-	btnNew.addActionListener(al);
-	btnDelete.addActionListener(al);
-	btnFind.addActionListener(al);
+    // give tabs some descriptive text
+    center.setTitleAt(0, "Contact Info");
+    center.setTitleAt(1, "Notes");
+
+    mainFrame.setLocationRelativeTo(null);
+    mainFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+    pack();
+  }
+
+  public final void addActionListener(final ActionListener al) {
+
+    btnFirst.addActionListener(al);
+    btnPrevious.addActionListener(al);
+    btnNext.addActionListener(al);
+    btnLast.addActionListener(al);
+    btnNew.addActionListener(al);
+    btnDelete.addActionListener(al);
+    btnFind.addActionListener(al);
+  }
+
+  public final void addWindowListener(final WindowAdapter wa) {
+    mainFrame.addWindowListener(wa);
+  }
+
+  public final void updateViewWithContact(final Contact contact,
+      final int current, final int total) {
+    lblCurrentContact.setText("Entry " + current + " of " + total);
+    txtFName.setText(contact.getFName());
+    txtLName.setText(contact.getLName());
+    txtStreet.setText(contact.getAddress().getStreet());
+    txtCity.setText(contact.getAddress().getCity());
+    cmbState.setSelectedItem(contact.getAddress().getState().displayName());
+    txtZip.setText(contact.getAddress().getZip());
+    txtEmail.setText(contact.getEmail());
+    txtPhone.setText(contact.getPhone().getPhoneNumber());
+
+    if (contact.getBirthday() != null) {
+      txtBirthday.setText(contact.getBirthday().toString());
+    } else {
+      txtBirthday.setText("");
     }
 
-    public void addWindowListener(WindowAdapter wa) {
-	mainFrame.addWindowListener(wa);
+    notesText.setText(contact.getNotes());
+
+    if (!txtFName.getText().isEmpty() || !txtLName.getText().isEmpty()) {
+      mainFrame.setTitle(contact.getLName() + ", " + contact.getFName());
     }
 
-    public void updateViewWithContact(Contact contact, int current, int total) {
-	lblCurrentContact.setText("Entry " + current + " of " + total);
-	txtFName.setText(contact.getFName());
-	txtLName.setText(contact.getLName());
-	txtStreet.setText(contact.getAddress().getStreet());
-	txtCity.setText(contact.getAddress().getCity());
-	cmbState.setSelectedItem(contact.getAddress().getState().displayName());
-	txtZip.setText(contact.getAddress().getZip());
-	txtEmail.setText(contact.getEmail());
-	txtPhone.setText(contact.getPhone().getPhoneNumber());
-
-	if (contact.getBirthday() != null) {
-	    txtBirthday.setText(contact.getBirthday().toString());
-	} else {
-	    txtBirthday.setText("");
-	}
-
-	notesText.setText(contact.getNotes());
-
-	if (!txtFName.getText().isEmpty() || !txtLName.getText().isEmpty()) {
-	    mainFrame.setTitle(contact.getLName() + ", " + contact.getFName());
-	}
-	
-	if (current == total){
-	    toggleFirstAndPrevButtons(true);
-	    toggleLastAndNextButtons(false);
-	}
-	else if (current == 1){
-	    toggleFirstAndPrevButtons(false);
-	    toggleLastAndNextButtons(true);	    
-	}
-	else{
-	    toggleFirstAndPrevButtons(true);
-	    toggleLastAndNextButtons(true);
-	}
+    if (current == total) {
+      toggleFirstAndPrevButtons(true);
+      toggleLastAndNextButtons(false);
+    } else if (current == 1) {
+      toggleFirstAndPrevButtons(false);
+      toggleLastAndNextButtons(true);
+    } else {
+      toggleFirstAndPrevButtons(true);
+      toggleLastAndNextButtons(true);
     }
+  }
 
-    public void clearFields() {
-	getTxtFName().setText("");
-	getTxtLName().setText("");
-	getTxtStreet().setText("");
-	getCmbState().setSelectedIndex(0);
-	getTxtCity().setText("");
-	getTxtZip().setText("");
-	getTxtEmail().setText("");
-	getTxtPhone().setText("");
-	getTxtBirthday().setText("");
-	mainFrame.setTitle("Contacts");
-    }
-    
-    public void toggleFirstAndPrevButtons(boolean enabled){
-	if (enabled){
-	    btnFirst.setEnabled(true);
-	    btnPrevious.setEnabled(true);
-	}
-	else{
-	    btnFirst.setEnabled(false);
-	    btnPrevious.setEnabled(false);	    
-	}
-    }
-    
-    public void toggleLastAndNextButtons(boolean enabled){
-	if (enabled){
-	    btnLast.setEnabled(true);
-	    btnNext.setEnabled(true);
-	}
-	else{
-	    btnLast.setEnabled(false);
-	    btnNext.setEnabled(false);	    
-	}
-    }
+  public final void clearFields() {
+    getTxtFName().setText("");
+    getTxtLName().setText("");
+    getTxtStreet().setText("");
+    getCmbState().setSelectedIndex(0);
+    getTxtCity().setText("");
+    getTxtZip().setText("");
+    getTxtEmail().setText("");
+    getTxtPhone().setText("");
+    getTxtBirthday().setText("");
+    mainFrame.setTitle("Contacts");
+  }
 
-    public JButton getBtnFirst() {
-	return btnFirst;
-    }
+  public final void clearEntryLabel() {
+    lblCurrentContact.setText("");
+  }
 
-    public JButton getBtnPrevious() {
-	return btnPrevious;
+  public final void toggleFirstAndPrevButtons(final boolean enabled) {
+    if (enabled) {
+      btnFirst.setEnabled(true);
+      btnPrevious.setEnabled(true);
+    } else {
+      btnFirst.setEnabled(false);
+      btnPrevious.setEnabled(false);
     }
+  }
 
-    public JButton getBtnNext() {
-	return btnNext;
+  public final void toggleLastAndNextButtons(final boolean enabled) {
+    if (enabled) {
+      btnLast.setEnabled(true);
+      btnNext.setEnabled(true);
+    } else {
+      btnLast.setEnabled(false);
+      btnNext.setEnabled(false);
     }
+  }
 
-    public JButton getBtnLast() {
-	return btnLast;
-    }
+  public final JButton getBtnFirst() {
+    return btnFirst;
+  }
 
-    public JButton getBtnNew() {
-	return btnNew;
-    }
+  public final JButton getBtnPrevious() {
+    return btnPrevious;
+  }
 
-    public JButton getBtnDelete() {
-	return btnDelete;
-    }
+  public final JButton getBtnNext() {
+    return btnNext;
+  }
 
-    public JButton getBtnFind() {
-	return btnFind;
-    }
+  public final JButton getBtnLast() {
+    return btnLast;
+  }
 
-    public JTextArea getNotesText() {
-	return notesText;
-    }
+  public final JButton getBtnNew() {
+    return btnNew;
+  }
 
-    public void setNotesText(JTextArea notesText) {
-	this.notesText = notesText;
-    }
+  public final JButton getBtnDelete() {
+    return btnDelete;
+  }
 
-    public JTextField getTxtFName() {
-	return txtFName;
-    }
+  public final JButton getBtnFind() {
+    return btnFind;
+  }
 
-    public void setTxtFName(JTextField txtFName) {
-	this.txtFName = txtFName;
-    }
+  public final JTextArea getNotesText() {
+    return notesText;
+  }
 
-    public JTextField getTxtLName() {
-	return txtLName;
-    }
+  public final void setNotesText(final JTextArea notesText) {
+    this.notesText = notesText;
+  }
 
-    public void setTxtLName(JTextField txtLName) {
-	this.txtLName = txtLName;
-    }
+  public final JTextField getTxtFName() {
+    return txtFName;
+  }
 
-    public JTextField getTxtStreet() {
-	return txtStreet;
-    }
+  public final void setTxtFName(final JTextField txtFName) {
+    this.txtFName = txtFName;
+  }
 
-    public void setTxtStreet(JTextField txtStreet) {
-	this.txtStreet = txtStreet;
-    }
+  public final JTextField getTxtLName() {
+    return txtLName;
+  }
 
-    public JTextField getTxtCity() {
-	return txtCity;
-    }
+  public final void setTxtLName(final JTextField txtLName) {
+    this.txtLName = txtLName;
+  }
 
-    public void setTxtCity(JTextField txtCity) {
-	this.txtCity = txtCity;
-    }
+  public final JTextField getTxtStreet() {
+    return txtStreet;
+  }
 
-    public JTextField getTxtZip() {
-	return txtZip;
-    }
+  public final void setTxtStreet(final JTextField txtStreet) {
+    this.txtStreet = txtStreet;
+  }
 
-    public void setTxtZip(JTextField txtZip) {
-	this.txtZip = txtZip;
-    }
+  public final JTextField getTxtCity() {
+    return txtCity;
+  }
 
-    public JTextField getTxtEmail() {
-	return txtEmail;
-    }
+  public final void setTxtCity(final JTextField txtCity) {
+    this.txtCity = txtCity;
+  }
 
-    public void setTxtEmail(JTextField txtEmail) {
-	this.txtEmail = txtEmail;
-    }
+  public final JTextField getTxtZip() {
+    return txtZip;
+  }
 
-    public JTextField getTxtPhone() {
-	return txtPhone;
-    }
+  public final void setTxtZip(final JTextField txtZip) {
+    this.txtZip = txtZip;
+  }
 
-    public void setTxtPhone(JTextField txtPhone) {
-	this.txtPhone = txtPhone;
-    }
+  public final JTextField getTxtEmail() {
+    return txtEmail;
+  }
 
-    public JTextField getTxtBirthday() {
-	return txtBirthday;
-    }
+  public final void setTxtEmail(final JTextField txtEmail) {
+    this.txtEmail = txtEmail;
+  }
 
-    public void setTxtBirthday(JTextField txtBirthday) {
-	this.txtBirthday = txtBirthday;
-    }
+  public final JTextField getTxtPhone() {
+    return txtPhone;
+  }
 
-    public JComboBox<String> getCmbState() {
-	return cmbState;
-    }
+  public final void setTxtPhone(final JTextField txtPhone) {
+    this.txtPhone = txtPhone;
+  }
 
-    public void setCmbState(JComboBox<String> cmbState) {
-	this.cmbState = cmbState;
-    }
+  public final JTextField getTxtBirthday() {
+    return txtBirthday;
+  }
 
-    public JFrame getMainFrame() {
-	return mainFrame;
-    }
+  public final void setTxtBirthday(final JTextField txtBirthday) {
+    this.txtBirthday = txtBirthday;
+  }
+
+  public final JComboBox<String> getCmbState() {
+    return cmbState;
+  }
+
+  public final void setCmbState(final JComboBox<String> cmbState) {
+    this.cmbState = cmbState;
+  }
+
+  public final JFrame getMainFrame() {
+    return mainFrame;
+  }
+
+  public final void setLblCurrentContact(final JLabel lblCurrentContact) {
+    this.lblCurrentContact = lblCurrentContact;
+  }
 }

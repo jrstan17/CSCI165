@@ -7,8 +7,9 @@ public class SearchService {
   private String searchText;
   private String selectedRadioBtnName;
   private ArrayList<Contact> contacts;
+  private int contactIndex;
 
-  public SearchService(final Object[] objects, 
+  public SearchService(final Object[] objects,
       final ArrayList<Contact> contacts) {
     searchText = objects[0].toString();
     selectedRadioBtnName = objects[1].toString();
@@ -18,50 +19,87 @@ public class SearchService {
   }
 
   public final int search() {
-    int contactIndex = -1;
+    contactIndex = -1;
 
+    searchLastName();
+    searchFirstName();
+    searchStreet();
+    searchCity();
+    searchState();
+    searchEmail();
+    searchPhone();
+    searchBirthday();
+
+    return contactIndex;
+  }
+  
+  private void searchLastName() {
     if (selectedRadioBtnName.equals("Last Name")) {
       for (Contact contact : contacts) {
-        if (contact.getLName().equals(StringUtilities.
-            toProperNoun(searchText))) {
+        if (contact.getLName()
+            .equals(StringUtilities.toProperNoun(searchText))) {
           contactIndex = contacts.indexOf(contact);
         }
       }
-    } else if (selectedRadioBtnName.equals("First Name")) {
+    }
+  }
+
+  private void searchFirstName() {
+    if (selectedRadioBtnName.equals("First Name")) {
       for (Contact contact : contacts) {
-        if (contact.getFName().equals(StringUtilities.
-            toProperNoun(searchText))) {
+        if (contact.getFName()
+            .equals(StringUtilities.toProperNoun(searchText))) {
           contactIndex = contacts.indexOf(contact);
         }
       }
-    } else if (selectedRadioBtnName.equals("Street Address")) {
+    }
+  }
+
+  private void searchStreet() {
+    if (selectedRadioBtnName.equals("Street Address")) {
       for (Contact contact : contacts) {
         if (contact.getAddress().getStreet()
             .equals(StringUtilities.toProperNoun(searchText))) {
           contactIndex = contacts.indexOf(contact);
         }
       }
-    } else if (selectedRadioBtnName.equals("City")) {
+    }
+  }
+
+  private void searchCity() {
+    if (selectedRadioBtnName.equals("City")) {
       for (Contact contact : contacts) {
         if (contact.getAddress().getCity()
             .equals(StringUtilities.toProperNoun(searchText))) {
           contactIndex = contacts.indexOf(contact);
         }
       }
-    } else if (selectedRadioBtnName.equals("State")) {
+    }
+  }
+
+  private void searchState() {
+    if (selectedRadioBtnName.equals("State")) {
       for (Contact contact : contacts) {
         if (contact.getAddress().getState().displayName().equals(searchText)
             || contact.getAddress().getState().name().equals(searchText)) {
           contactIndex = contacts.indexOf(contact);
         }
       }
-    } else if (selectedRadioBtnName.equals("Email")) {
+    }
+  }
+
+  private void searchEmail() {
+    if (selectedRadioBtnName.equals("Email")) {
       for (Contact contact : contacts) {
         if (contact.getEmail().equals(searchText)) {
           contactIndex = contacts.indexOf(contact);
         }
       }
-    } else if (selectedRadioBtnName.equals("Phone")) {
+    }
+  }
+
+  private void searchPhone() {
+    if (selectedRadioBtnName.equals("Phone")) {
       for (Contact contact : contacts) {
         PhoneNumber temp = new PhoneNumber(searchText);
 
@@ -69,7 +107,11 @@ public class SearchService {
           contactIndex = contacts.indexOf(contact);
         }
       }
-    } else if (selectedRadioBtnName.equals("Birthday MM/DD/YYYY")) {
+    }
+  }
+
+  private void searchBirthday() {
+    if (selectedRadioBtnName.equals("Birthday MM/DD/YYYY")) {
       for (Contact contact : contacts) {
         if (contact.getBirthday() != null) {
           if (contact.getBirthday().toString().equals(searchText)) {
@@ -78,7 +120,5 @@ public class SearchService {
         }
       }
     }
-
-    return contactIndex;
   }
 }
