@@ -40,7 +40,6 @@ public class Contact implements Serializable, Comparable<Contact>{
     
     @Override
     public int compareTo(Contact o) {
-	lName = lName.substring(0,1).toUpperCase() + lName.substring(1);
 	return this.lName.compareTo(o.lName);
     }
 
@@ -58,7 +57,7 @@ public class Contact implements Serializable, Comparable<Contact>{
     }
 
     public void setLName(String lName) {
-	lName.equals(StringUtilities.toProperNoun(lName));
+	lName = (StringUtilities.toProperNoun(lName));
 	this.lName = lName;
     }
 
