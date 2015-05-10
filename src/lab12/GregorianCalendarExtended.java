@@ -28,6 +28,7 @@ public class GregorianCalendarExtended extends GregorianCalendar {
         substring(YEAR_BEGINNING_INDEX)));
   }
 
+
   public final String toString() {
     StringBuilder sb = new StringBuilder();
 

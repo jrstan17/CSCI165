@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -157,12 +158,12 @@ public class View extends JFrame {
 
   public final void updateViewWithContact(final Contact contact,
       final int current, final int total) {
-    
+
     lblCurrentContact.setText("Entry " + current + " of " + total);
     lblCurrentContact.setVisible(true);
-    
-    txtFName.setText(contact.getFName());
-    txtLName.setText(contact.getLName());
+
+    txtFName.setText(contact.getFirstName());
+    txtLName.setText(contact.getLastName());
     txtStreet.setText(contact.getAddress().getStreet());
     txtCity.setText(contact.getAddress().getCity());
     cmbState.setSelectedItem(contact.getAddress().getState().displayName());
@@ -180,12 +181,19 @@ public class View extends JFrame {
     notesText.setText(contact.getNotes());
 
     if (!txtFName.getText().isEmpty() || !txtLName.getText().isEmpty()) {
-      mainFrame.setTitle(contact.getLName() + ", " + contact.getFName());
+      mainFrame
+          .setTitle(contact.getLastName() + ", " + contact.getFirstName());
     }
 
     if (current == total) {
-      toggleFirstAndPrevButtons(true);
-      toggleLastAndNextButtons(false);
+      if (current == 1) {
+        toggleFirstAndPrevButtons(false);
+        toggleLastAndNextButtons(false);
+      }
+      else {
+        toggleFirstAndPrevButtons(true);
+        toggleLastAndNextButtons(false);
+      }
     }
     else if (current == 1) {
       toggleFirstAndPrevButtons(false);
@@ -194,6 +202,15 @@ public class View extends JFrame {
     else {
       toggleFirstAndPrevButtons(true);
       toggleLastAndNextButtons(true);
+    }
+  }
+  
+  public final void toggleDeleteButton(final ArrayList<Contact> contacts) {
+    if (contacts.size() == 1) {
+      btnDelete.setEnabled(false);
+    }
+    else {
+      btnDelete.setEnabled(true);
     }
   }
 

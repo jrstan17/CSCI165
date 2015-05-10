@@ -34,6 +34,8 @@ public class Controller {
     Contact firstContact = cs.getContacts().get(0);
     view.updateViewWithContact(firstContact, contactIndex + 1, cs
         .getContacts().size());
+    
+    view.toggleDeleteButton(cs.getContacts());
 
     bDayCheck(firstContact);
   }
@@ -154,9 +156,8 @@ public class Controller {
         view.updateViewWithContact(c, contactIndex + 1, cs.getContacts()
             .size());
       }
-      if (cs.getContacts().size() == 1) {
-        view.getBtnDelete().setEnabled(false);
-      }
+      
+      view.toggleDeleteButton(cs.getContacts());
     }
   }
 
@@ -201,8 +202,8 @@ public class Controller {
     if (isSuccessful) {
       Contact contact = cs.getContacts().get(contactIndex);
 
-      contact.setFName(view.getTxtFName().getText());
-      contact.setLName(view.getTxtLName().getText());
+      contact.setFirstName(view.getTxtFName().getText());
+      contact.setLastName(view.getTxtLName().getText());
       contact.getAddress().setStreet(view.getTxtStreet().getText());
       contact.getAddress().setCity(view.getTxtCity().getText());
       contact.getAddress().setState(

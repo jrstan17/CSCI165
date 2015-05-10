@@ -41,7 +41,7 @@ public class Address implements Cloneable, Serializable {
           && this.state.equals(address.state) && this.zip.equals(address.zip));
     } // end of else
   }
-
+  
   public final Object clone() throws CloneNotSupportedException {
     return super.clone();
   }

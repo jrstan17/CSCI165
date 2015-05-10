@@ -14,8 +14,6 @@ public class SearchService {
     searchText = objects[0].toString();
     selectedRadioBtnName = objects[1].toString();
     this.contacts = contacts;
-
-    System.out.println(searchText);
   }
 
   public final int search() {
@@ -36,7 +34,7 @@ public class SearchService {
   private void searchLastName() {
     if (selectedRadioBtnName.equals("Last Name")) {
       for (Contact contact : contacts) {
-        if (contact.getLName()
+        if (contact.getLastName()
             .equals(StringUtilities.toProperNoun(searchText))) {
           contactIndex = contacts.indexOf(contact);
         }
@@ -47,7 +45,7 @@ public class SearchService {
   private void searchFirstName() {
     if (selectedRadioBtnName.equals("First Name")) {
       for (Contact contact : contacts) {
-        if (contact.getFName()
+        if (contact.getFirstName()
             .equals(StringUtilities.toProperNoun(searchText))) {
           contactIndex = contacts.indexOf(contact);
         }

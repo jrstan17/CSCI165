@@ -32,7 +32,8 @@ public final class Messages {
         JOptionPane.INFORMATION_MESSAGE);
   }
 
-  public static void showBDayMessage(final JFrame frame, final String firstName) {
+  public static void showBDayMessage(final JFrame frame, 
+      final String firstName) {
     JOptionPane.showMessageDialog(frame, "Happy Birthday, " + firstName + "!",
         "Important Message", JOptionPane.INFORMATION_MESSAGE);
   }

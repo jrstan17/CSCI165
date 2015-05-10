@@ -24,6 +24,33 @@ public class PhoneNumber implements Serializable {
 
     return sb.toString();
   }
+  
+  public PhoneNumber(final PhoneNumber originalObject) {
+    if (originalObject == null) {
+
+      System.out.println("Error: null PhoneNumber object.");
+      System.exit(0);
+    }
+
+    phoneNumber = originalObject.phoneNumber;
+  }
+  
+  public final boolean equals(final Object other) {
+    if (other == null) {
+      return false;
+    } // end of if ()
+    else if (this.getClass() != other.getClass()) {
+      return false;
+    } // end of if ()
+    else {
+      PhoneNumber phoneNumber = (PhoneNumber) other;
+      return (this.phoneNumber.equals(phoneNumber.phoneNumber));
+    } // end of else
+  }
+  
+  public final Object clone() throws CloneNotSupportedException {
+    return super.clone();
+  }
 
   private void parseNumber() {
     phoneNumber = removeNonDigits(phoneNumber);
