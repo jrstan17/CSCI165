@@ -4,8 +4,8 @@ import java.io.PrintWriter;
 
 public class View {
 
-    private final int BORDER_OVERLAP = 2;
-    private final int DEBUG_STARTING_ROW = 1;
+    private static final int BORDER_OVERLAP = 2;
+    private static final int DEBUG_STARTING_ROW = 1;
 
     private PrintWriter out;
 

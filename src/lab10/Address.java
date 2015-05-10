@@ -33,7 +33,7 @@ public class Address implements Cloneable {
 	    return false;
 	} // end of if ()
 	else {
-	    Address address = (Address) other;
+	  Address address = (Address) other;
 	    return (this.street.equals(address.street)
 		    && this.city.equals(address.city)
 		    && this.state.equals(address.state) && this.zip
